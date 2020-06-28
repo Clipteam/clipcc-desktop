@@ -189,7 +189,7 @@ const createMainWindow = () => {
     const window = createWindow({
         width: defaultSize.width,
         height: defaultSize.height,
-        title: 'Scratch Desktop'
+        title: 'ClipCC 3'
     });
     const webContents = window.webContents;
 
@@ -282,10 +282,16 @@ if (process.platform === 'win32') {
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
     protocol.interceptFileProtocol('file', (request, callback) => {
-        const filePath = request.url.replace('file://', '');
-        const url = request.url.includes('static/assets') ? path.normalize(`${__dirname}/${filePath}`) : filePath;
-		console.log(request.url, url);
-        callback({ path: url });
+        const filePath = request.url.replace('file:///', '');
+        if (request.url.includes('static/assets')) {
+            const url = path.join(__dirname, filePath.substr(filePath.search('static'))).replace(/\\/g, '/');
+            console.log(request.url, url);
+            callback(url);
+        }
+        else {
+            console.log(request.url, filePath, filePath.replace(/\?.*/g, ''));
+            callback({ path: filePath.replace(/\?.*/g, '') });
+        }
     }, err => {
         if (err) console.error('Failed to register protocol');
     });
