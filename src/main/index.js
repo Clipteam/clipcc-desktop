@@ -172,7 +172,7 @@ const createAboutWindow = () => {
         height: 400,
         parent: _windows.main,
         search: 'route=about',
-        title: 'About Scratch Desktop'
+        title: 'About ClipCC'
     });
     return window;
 };
