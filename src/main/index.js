@@ -13,6 +13,10 @@ app.allowRendererProcessReuse = true;
 
 telemetry.appWasOpened();
 
+global.sharedObject = {
+    argv: process.argv
+};
+
 // const defaultSize = {width: 1096, height: 715}; // minimum
 const defaultSize = {width: 1280, height: 800}; // good for MAS screenshots
 
@@ -281,7 +285,7 @@ if (process.platform === 'win32') {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
-    protocol.interceptFileProtocol('file', (request, callback) => {
+    `protocol.interceptFileProtocol('file', (request, callback) => {
         const filePath = request.url.replace('file:///', '');
         if (request.url.includes('static/assets')) {
             const url = path.join(__dirname, filePath.substr(filePath.search('static'))).replace(/\\/g, '/');
@@ -294,7 +298,7 @@ app.on('ready', () => {
         }
     }, err => {
         if (err) console.error('Failed to register protocol');
-    });
+    });`;
     if (isDevelopment) {
         import('electron-devtools-installer').then(importedModule => {
             const {default: installExtension, ...devToolsExtensions} = importedModule;
