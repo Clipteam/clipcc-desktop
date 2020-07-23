@@ -1,4 +1,5 @@
-import {ipcRenderer, shell} from 'electron';
+import {ipcRenderer, shell, remote} from 'electron';
+import fs from 'fs';
 import bindAll from 'lodash.bindall';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -69,6 +70,17 @@ const ScratchDesktopHOC = function (WrappedComponent) {
         handleUpdateProjectTitle (newTitle) {
             this.setState({projectTitle: newTitle});
         }
+        handleVmInit (vm) {
+            const argv = remote.getGlobal('sharedObject').argv;
+            console.log(argv);
+            if (argv.length > 1 && argv[1]) {
+                fs.readFile(argv[1], (err, data) => {
+                    if (err) throw err;
+                    else vm.loadProject(data);
+                    console.log(data);
+                });
+            }
+        }
         render () {
             const shouldShowTelemetryModal = (typeof ipcRenderer.sendSync('getTelemetryDidOptIn') !== 'boolean');
             return (<WrappedComponent
@@ -83,6 +95,7 @@ const ScratchDesktopHOC = function (WrappedComponent) {
                 onTelemetryModalOptIn={this.handleTelemetryModalOptIn}
                 onTelemetryModalOptOut={this.handleTelemetryModalOptOut}
                 onUpdateProjectTitle={this.handleUpdateProjectTitle}
+                onVmInit={this.handleVmInit}
                 {...this.props}
             />);
         }
