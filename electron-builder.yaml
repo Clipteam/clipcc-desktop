@@ -4,29 +4,16 @@ directories:
 appId: com.codingclip.clipcc3
 productName: "ClipCC 3"
 afterSign: "scripts/afterSign.js"
-#mac:
-#  category: public.app-category.education
-#  hardenedRuntime: true
-#  icon: buildResources/ScratchDesktop.icns
-#  provisioningProfile: embedded.provisionprofile
-#  target:
-#    - dmg
-#    - mas
-#mas:
-#  type: distribution
-#  category: public.app-category.education
-#  entitlements: buildResources/entitlements.plist
-#  entitlementsInherit: buildResources/entitlements.inherit.plist
-#  icon: buildResources/ScratchDesktop.icns
 win:
   icon: buildResources/ScratchDesktop.ico
   target:
     - zip
-    #- appx
-    #- nsis
-#appx:
-#  identityName: ScratchFoundation.ScratchDesktop
-#  publisherDisplayName: "Scratch Foundation"
-#  publisher: "CN=2EC43DF1-469A-4119-9AB9-568A0A1FF65F"
+    - nsis
+compression: maximum
 nsis:
-  oneClick: false # allow user to choose per-user or per-machine
+  oneClick: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  include: buildResources/installer.nsh
