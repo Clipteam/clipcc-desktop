@@ -11,6 +11,7 @@ import ElectronStorageHelper from '../common/ElectronStorageHelper';
 import styles from './app.css';
 
 const defaultProjectId = 0;
+const externalProjectId = -1;
 
 // override window.open so that it uses the OS's default browser, not an electron browser
 window.open = function (url, target) {
@@ -37,7 +38,9 @@ const ScratchDesktopHOC = function (WrappedComponent) {
                 'handleStorageInit',
                 'handleTelemetryModalOptIn',
                 'handleTelemetryModalOptOut',
-                'handleUpdateProjectTitle'
+                'handleUpdateProjectTitle',
+                'handleVmInit',
+                'handleRef'
             ]);
             this.state = {
                 projectTitle: null
@@ -72,21 +75,34 @@ const ScratchDesktopHOC = function (WrappedComponent) {
         }
         handleVmInit (vm) {
             const argv = remote.getGlobal('sharedObject').argv;
-            console.log(argv);
             if (argv.length > 1 && argv[1]) {
+                this.gui.props.onLoadingStarted();
                 fs.readFile(argv[1], (err, data) => {
-                    if (err) throw err;
-                    else vm.loadProject(data);
-                    console.log(data);
+                    if (err) {
+                        this.gui.props.onLoadingFinished(this.gui.props.loadingState, false);
+                    } else {
+                        vm.loadProject(data)
+                            .then(() => {
+                                this.gui.props.onLoadingFinished(this.gui.props.loadingState, true);
+                            })
+                            .catch(error => {
+                                console.warn(error);
+                                this.gui.props.onLoadingFinished(this.gui.props.loadingState, false);
+                            });
+                    }
                 });
             }
         }
+        handleRef (gui) {
+            this.gui = gui;
+        }
         render () {
+            const shouldLoadExternalProject = remote.getGlobal('sharedObject').argv.length > 1;
             const shouldShowTelemetryModal = (typeof ipcRenderer.sendSync('getTelemetryDidOptIn') !== 'boolean');
             return (<WrappedComponent
                 canEditTitle
                 isScratchDesktop
-                projectId={defaultProjectId}
+                projectId={shouldLoadExternalProject ? externalProjectId : defaultProjectId}
                 projectTitle={this.state.projectTitle}
                 showTelemetryModal={shouldShowTelemetryModal}
                 onClickLogo={this.handleClickLogo}
@@ -96,6 +112,7 @@ const ScratchDesktopHOC = function (WrappedComponent) {
                 onTelemetryModalOptOut={this.handleTelemetryModalOptOut}
                 onUpdateProjectTitle={this.handleUpdateProjectTitle}
                 onVmInit={this.handleVmInit}
+                onRef={this.handleRef}
                 {...this.props}
             />);
         }
