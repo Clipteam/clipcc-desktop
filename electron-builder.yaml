@@ -9,6 +9,11 @@ win:
   target:
     - zip
     - nsis
+linux:
+  target:
+    - zip
+    - deb
+    - rpm
 compression: maximum
 nsis:
   oneClick: false

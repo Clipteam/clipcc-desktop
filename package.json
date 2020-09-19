@@ -3,6 +3,7 @@
   "productName": "ClipCC 3",
   "description": "ClipCC 3 as a self-contained desktop application",
   "author": "Clip Team",
+  "email": "cuizhihui030925@outlook.com",
   "version": "3.0.0",
   "license": "AGPL-3.0",
   "scripts": {
