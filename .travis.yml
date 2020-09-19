@@ -25,10 +25,10 @@ script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       docker run --rm \
-        --env-file <docker.env \
         -v ${PWD}:/project \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+        --env-file <docker.env \
         electronuserland/builder:wine \
         /bin/bash -c "yarn run dist --linux --win"
     else
