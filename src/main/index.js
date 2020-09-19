@@ -160,9 +160,9 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
 
     webContents.session.setPermissionRequestHandler(handlePermissionRequest);
 
-    //if (isDevelopment) {
+    if (isDevelopment) {
         webContents.openDevTools({mode: 'detach', activate: true});
-    //}
+    }
 
     const fullUrl = makeFullUrl(url, search);
     window.loadURL(fullUrl);
@@ -285,20 +285,6 @@ if (process.platform === 'win32') {
 
 // create main BrowserWindow when electron is ready
 app.on('ready', () => {
-    `protocol.interceptFileProtocol('file', (request, callback) => {
-        const filePath = request.url.replace('file:///', '');
-        if (request.url.includes('static/assets')) {
-            const url = path.join(__dirname, filePath.substr(filePath.search('static'))).replace(/\\/g, '/');
-            console.log(request.url, url);
-            callback(url);
-        }
-        else {
-            console.log(request.url, filePath, filePath.replace(/\?.*/g, ''));
-            callback({ path: filePath.replace(/\?.*/g, '') });
-        }
-    }, err => {
-        if (err) console.error('Failed to register protocol');
-    });`;
     if (isDevelopment) {
         import('electron-devtools-installer').then(importedModule => {
             const {default: installExtension, ...devToolsExtensions} = importedModule;
