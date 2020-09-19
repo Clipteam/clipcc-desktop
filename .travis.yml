@@ -12,7 +12,11 @@ matrix:
       language: generic
 
 before_install:
-  - npm install yarn -g
+  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
+  - cd ../clipcc-gui
+  - yarn --pure-lockfile && yarn link
+  - cd ../clipcc-desktop
+  - yarn --link-duplicates --pure-lockfile && yarn link clipcc-gui
 
 script:
   - |
@@ -23,7 +27,7 @@ script:
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/bash -c "yarn --link-duplicates --pure-lockfile && yarn run dist --linux --win"
+        /bin/bash -c "yarn run dist --linux --win"
     else
       yarn run dist
     fi
