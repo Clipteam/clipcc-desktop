@@ -2,14 +2,14 @@ directories:
   buildResources: buildResources
   output: dist
 appId: com.codingclip.clipcc3
-productName: "ClipCC 3"
-afterSign: "scripts/afterSign.js"
+productName: clipcc
 win:
   icon: buildResources/ScratchDesktop.ico
   target:
     - zip
     - nsis
 linux:
+  icon: buildResources/ScratchDesktop.ico
   target:
     - zip
     - deb
