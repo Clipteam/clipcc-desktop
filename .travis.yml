@@ -4,19 +4,24 @@ matrix:
       osx_image: xcode10.2
       language: node_js
       node_js: "10"
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+      script:
+        - yarn run build-gui && yarn run fetch && yarn run compile
+        - yarn run builder --mac
     - os: linux
-      services: docker
       language: node_js
       node_js: "10"
+      script:
+        - yarn run build-gui && yarn run fetch && yarn run compile
+        - yarn run builder --linux
+    - os: windows
+      language: node_js
+      node_js: "10"
+      script:
+        - yarn run build-gui && yarn run fetch && yarn run compile
+        - yarn run builder --win --ia32 --x64
 
-cache:
-  directories:
-    - node_modules
-    - $HOME/.cache/electron
-    - $HOME/.cache/electron-builder
+env:
+  - NODE_ENV=production
 
 before_install:
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
@@ -24,22 +29,3 @@ before_install:
   - yarn --pure-lockfile && yarn link
   - cd ../clipcc-desktop
   - yarn --link-duplicates --pure-lockfile && yarn link clipcc-gui
-
-script:
-  - env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_' > docker.env
-  - cat -n docker.env
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      docker run --rm \
-        -v ${PWD}:/project \
-        -v ~/.cache/electron:/root/.cache/electron \
-        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-        --env-file <docker.env \
-        electronuserland/builder:wine \
-        /bin/bash -c "yarn run dist --linux --win"
-    else
-      yarn run dist
-    fi
-
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
