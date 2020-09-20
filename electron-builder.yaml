@@ -14,7 +14,7 @@ linux:
     - zip
     - deb
     - rpm
-compression: maximum
+compression: normal
 nsis:
   oneClick: false
   allowElevation: true
