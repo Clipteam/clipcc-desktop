@@ -16,7 +16,7 @@
     "compile": "rimraf ./dist/ && node --max-old-space-size=4096 node_modules/electron-webpack/out/cli.js --bail --display-error-details --env.minify=false",
     "fetch": "rimraf ./static/assets/ && mkdirp ./static/assets/ && node ./scripts/fetchMediaLibraryAssets.js",
     "dist": "yarn run build-gui && yarn run fetch && yarn run compile -p && node ./scripts/electron-builder-wrapper.js",
-    "builder": "node ./scripts/electron-builder-wrapper.js --max-old-space-size=4096",
+    "builder": "node ./scripts/electron-builder-wrapper.js",
     "dist:dir": "yarn run dist -- --dir -c.compression=store -c.mac.identity=null",
     "lint": "eslint --cache --color --ext .jsx,.js ."
   },
