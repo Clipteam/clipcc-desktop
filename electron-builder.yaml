@@ -4,12 +4,10 @@ directories:
 appId: com.codingclip.clipcc3
 productName: clipcc
 win:
-  icon: buildResources/ScratchDesktop.ico
   target:
     - zip
     - nsis
 linux:
-  icon: buildResources/ScratchDesktop.ico
   target:
     - zip
     - deb
