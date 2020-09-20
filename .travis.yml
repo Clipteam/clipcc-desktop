@@ -21,12 +21,11 @@ matrix:
         - yarn run build-gui && yarn run fetch && yarn run compile
         - yarn run builder --win --ia32 --x64
 
-env:
-  - NODE_ENV=production
-
 before_install:
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
+
+install:
   - cd ../clipcc-gui
-  - yarn --pure-lockfile && yarn link
+  - yarn && yarn link
   - cd ../clipcc-desktop
-  - yarn --link-duplicates --pure-lockfile && yarn link clipcc-gui
+  - yarn && yarn link clipcc-gui
