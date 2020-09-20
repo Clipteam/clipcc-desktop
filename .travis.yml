@@ -5,17 +5,17 @@ matrix:
       language: node_js
       node_js: "10"
       script:
-        - NODE_ENV=production yarn run dist --mac
+        - yarn run dist --mac
     - os: linux
       language: node_js
       node_js: "10"
       script:
-        - NODE_ENV=production yarn run dist --linux
+        - yarn run dist --linux
     - os: windows
       language: node_js
       node_js: "10"
       script:
-        - set NODE_ENV=production && yarn run dist --win --ia32 --x64
+        - yarn run dist --win --ia32 --x64
 
 before_install:
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
