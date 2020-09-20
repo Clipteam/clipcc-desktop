@@ -9,14 +9,14 @@
   "version": "3.0.0",
   "license": "AGPL-3.0",
   "scripts": {
-    "start": "electron-webpack dev --bail --display-error-details --env.minify=false",
+    "start": "node --max-old-space-size=4096 node_modules/electron-webpack/out/cli.js dev --bail --display-error-details --env.minify=false",
     "build-gui": "node ./scripts/run-in-gui.js build",
     "watch-gui": "node ./scripts/run-in-gui.js watch",
     "clean": "rimraf ./dist/ ./static/assets/",
-    "compile": "rimraf ./dist/ && electron-webpack --bail --display-error-details --env.minify=false",
+    "compile": "rimraf ./dist/ && node --max-old-space-size=4096 node_modules/electron-webpack/out/cli.js --bail --display-error-details --env.minify=false",
     "fetch": "rimraf ./static/assets/ && mkdirp ./static/assets/ && node ./scripts/fetchMediaLibraryAssets.js",
     "dist": "yarn run build-gui && yarn run fetch && yarn run compile -p && node ./scripts/electron-builder-wrapper.js",
-    "builder": "node ./scripts/electron-builder-wrapper.js",
+    "builder": "node ./scripts/electron-builder-wrapper.js --max-old-space-size=4096",
     "dist:dir": "yarn run dist -- --dir -c.compression=store -c.mac.identity=null",
     "lint": "eslint --cache --color --ext .jsx,.js ."
   },

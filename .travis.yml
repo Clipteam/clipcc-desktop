@@ -5,7 +5,6 @@ matrix:
       language: node_js
       node_js: "10"
       script:
-        - cross-env LIMIT=4096 increase-memory-limit
         - yarn run build-gui
         - yarn run fetch
         - yarn run compile
@@ -14,7 +13,6 @@ matrix:
       language: node_js
       node_js: "10"
       script:
-        - cross-env LIMIT=4096 increase-memory-limit
         - yarn run build-gui
         - yarn run fetch
         - yarn run compile
@@ -23,14 +21,13 @@ matrix:
       language: node_js
       node_js: "10"
       script:
-        - cross-env LIMIT=4096 increase-memory-limit
         - yarn run build-gui
         - yarn run fetch
         - yarn run compile
         - yarn run builder --win --ia32 --x64
 
 before_install:
-  - npm install -g increase-memory-limit cross-env
+  - npm install -g cross-env
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
 
 install:
