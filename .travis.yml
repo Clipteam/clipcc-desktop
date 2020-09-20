@@ -18,6 +18,7 @@ matrix:
       language: node_js
       node_js: "10"
       script:
+        - apt-get install rpm
         - yarn run build-gui
         - yarn run fetch
         - yarn run compile
