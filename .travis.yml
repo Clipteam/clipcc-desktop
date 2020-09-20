@@ -5,25 +5,32 @@ matrix:
       language: node_js
       node_js: "10"
       script:
-        - yarn run dist --mac
+        - yarn run build-gui
+        - yarn run fetch
+        - yarn run compile --max_old_space_size=4096
+        - yarn run builder --mac
     - os: linux
       language: node_js
       node_js: "10"
       script:
-        - yarn run dist --linux
+        - yarn run build-gui
+        - yarn run fetch
+        - yarn run compile --max_old_space_size=4096
+        - yarn run builder --linux
     - os: windows
       language: node_js
       node_js: "10"
       script:
-        - yarn run dist --win --ia32 --x64
+        - yarn run build-gui
+        - yarn run fetch
+        - yarn run compile --max_old_space_size=4096
+        - yarn run builder --win --ia32 --x64
 
 before_install:
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
-  - npm install -g increase-memory-limit
 
 install:
   - cd ../clipcc-gui
   - yarn && yarn link
   - cd ../clipcc-desktop
   - yarn && yarn link clipcc-gui
-  - increase-memory-limit
