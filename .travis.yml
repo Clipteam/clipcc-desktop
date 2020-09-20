@@ -17,8 +17,9 @@ matrix:
     - os: linux
       language: node_js
       node_js: "10"
+      before_script:
+        - sudo apt-get install rpm
       script:
-        - apt-get install rpm
         - yarn run build-gui
         - yarn run fetch
         - yarn run compile
@@ -30,7 +31,7 @@ matrix:
         - yarn run build-gui
         - yarn run fetch
         - rimraf ./dist/
-        - node --max-old-space-size=4096 node_modules/electron-webpack/out/cli.js --bail --display-error-details --env.minify=false
+        - node node_modules/electron-webpack/out/cli.js --max-old-space-size=4096 --bail --display-error-details --env.minify=false
         - yarn run builder --win --ia32 --x64
 
 before_install:
