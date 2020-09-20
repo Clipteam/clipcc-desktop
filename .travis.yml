@@ -7,15 +7,15 @@ matrix:
       script:
         - yarn run build-gui
         - yarn run fetch
-        - yarn run compile --max_old_space_size=4096
-        - yarn run builder --mac
+        - yarn run compile --max-old-space-size=4096
+        - yarn run builder --mac -c.mac.identity=null
     - os: linux
       language: node_js
       node_js: "10"
       script:
         - yarn run build-gui
         - yarn run fetch
-        - yarn run compile --max_old_space_size=4096
+        - yarn run compile --max-old-space-size=4096
         - yarn run builder --linux
     - os: windows
       language: node_js
@@ -23,7 +23,7 @@ matrix:
       script:
         - yarn run build-gui
         - yarn run fetch
-        - yarn run compile --max_old_space_size=4096
+        - yarn run compile --max-old-space-size=4096
         - yarn run builder --win --ia32 --x64
 
 before_install:
