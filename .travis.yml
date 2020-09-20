@@ -31,7 +31,9 @@ matrix:
         - yarn run build-gui
         - yarn run fetch
         - rimraf ./dist/
+        - cmd
         - node node_modules/electron-webpack/out/cli.js --max-old-space-size=4096 --bail --display-error-details --env.minify=false
+        - exit
         - yarn run builder --win --ia32 --x64
 
 before_install:
