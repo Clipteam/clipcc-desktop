@@ -5,14 +5,15 @@ matrix:
       language: node_js
       node_js: "10"
       script:
-        - yarn run build-gui && yarn run fetch && yarn run compile
+        - yarn run build-gui
+        - yarn run fetch
+        - yarn run compile
         - yarn run builder --mac
     - os: linux
       language: node_js
       node_js: "10"
       script:
-        - yarn run build-gui && yarn run fetch && yarn run compile
-        - yarn run builder --linux
+        - yarn run dist
     - os: windows
       language: node_js
       node_js: "10"
