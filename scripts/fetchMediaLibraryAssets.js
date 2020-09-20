@@ -7,7 +7,7 @@ const async = require('async');
 
 const libraries = require('./lib/libraries');
 
-const CDN_AERFAYING = true;
+const CDN_AERFAYING = false;
 
 const ASSET_HOST = CDN_AERFAYING ? 'cdn.mozhua.org' : 'cdn.assets.scratch.mit.edu';
 const NUM_SIMULTANEOUS_DOWNLOADS = 5;
