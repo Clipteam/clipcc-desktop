@@ -5,6 +5,11 @@ matrix:
       language: node_js
       node_js: "10"
       script:
+        - unset CSC_LINK
+        - unset CSC_KEY_PASSWORD
+        - unset CSC_NAME
+        - export CSC_IDENTITY_AUTO_DISCOVERY=false
+        - unset CSC_KEYCHAIN
         - yarn run build-gui
         - yarn run fetch
         - yarn run compile
@@ -23,7 +28,8 @@ matrix:
       script:
         - yarn run build-gui
         - yarn run fetch
-        - yarn run compile
+        - rimraf ./dist/
+        - node --max-old-space-size=4096 node_modules/electron-webpack/out/cli.js --bail --display-error-details --env.minify=false
         - yarn run builder --win --ia32 --x64
 
 before_install:
@@ -35,3 +41,18 @@ install:
   - yarn && yarn link
   - cd ../clipcc-desktop
   - yarn && yarn link clipcc-gui
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file:
+    - dist/*.zip
+    - dist/*.deb
+    - dist/*.rpm
+    - dist/*.exe
+    - dist/*.dmg
+    - dist/*.pkg
+  skip_cleanup: true
+  on:
+    tags: true
