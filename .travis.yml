@@ -4,37 +4,30 @@ matrix:
       osx_image: xcode10.2
       language: node_js
       node_js: "10"
-      script:
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+      before_script:
         - unset CSC_LINK
         - unset CSC_KEY_PASSWORD
         - unset CSC_NAME
-        - export CSC_IDENTITY_AUTO_DISCOVERY=false
         - unset CSC_KEYCHAIN
-        - yarn run build-gui
-        - yarn run fetch
-        - yarn run compile
-        - yarn run builder --mac -c.mac.identity=null
+        - export CSC_IDENTITY_AUTO_DISCOVERY=false
     - os: linux
+      services: docker
       language: node_js
       node_js: "10"
       before_script:
         - sudo apt-get install rpm
-      script:
-        - yarn run build-gui
-        - yarn run fetch
-        - yarn run compile
-        - yarn run builder --linux
-    - os: windows
-      language: node_js
-      node_js: "10"
-      script:
-        - yarn run build-gui
-        - yarn run fetch
-        - rimraf ./dist/
-        - cmd
-        - node node_modules/electron-webpack/out/cli.js --max-old-space-size=4096 --bail --display-error-details --env.minify=false
-        - exit
-        - yarn run builder --win --ia32 --x64
+
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 
 before_install:
   - npm install -g cross-env
@@ -45,6 +38,22 @@ install:
   - yarn && yarn link
   - cd ../clipcc-desktop
   - yarn && yarn link clipcc-gui
+
+script:
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      touch clipcc-desktop.env
+      env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|TRAVIS|CSC_|_TOKEN|_KEY|BUILD_') > ./clipcc-desktop.env
+      docker run --rm \
+        --env-file ./clipcc-desktop.env
+        -v ${PWD}:/project -v ${PWD##*/}-node-modules:/project/node_modules \
+        -v ~/.cache/electron:/root/.cache/electron \
+        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+        electronuserland/builder:wine \
+        /bin/bash -c "yarn run dist --linux --win"
+    else
+      yarn run dist
+    fi
 
 deploy:
   provider: releases
