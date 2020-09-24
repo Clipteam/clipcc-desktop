@@ -44,10 +44,11 @@ script:
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       touch clipcc-desktop.env
       env | grep -vE '\r|\n' | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|TRAVIS|CSC_|_TOKEN|_KEY|BUILD_' > ./clipcc-desktop.env
-      cat -n clipcc-desktop.env
+      cat clipcc-desktop.env
       docker run --rm \
         --env-file ./clipcc-desktop.env \
-        -v ${PWD}:/project -v ${PWD##*/}-node-modules:/project/node_modules \
+        -v ${PWD}:/clipcc-desktop \
+        -v ${PWD}/../clipcc-gui:/clipcc-gui \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
