@@ -27,12 +27,12 @@ cache:
 
 before_install:
   - npm install -g cross-env
-  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
+  - git clone https://github.com/Clipteam/clipcc-gui.git clipcc-gui
 
 install:
-  - cd ../clipcc-gui
+  - cd clipcc-gui
   - yarn && yarn link
-  - cd ../clipcc-desktop
+  - cd ..
   - yarn && yarn link clipcc-gui
 
 script:
@@ -44,7 +44,6 @@ script:
       docker run --rm \
         --env-file ./clipcc-desktop.env \
         -v ${PWD}:/project \
-        -v ${PWD}/../clipcc-gui:/clipcc-gui \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
