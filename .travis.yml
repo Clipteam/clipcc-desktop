@@ -47,9 +47,8 @@ script:
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/ls \
-        /bin/ls ./clipcc-gui \
-        /bin/bash -c "yarn run dist --linux --win"
+        /bin/bash -c "cd ./node_modules/clipcc-gui && BUILD_MODE=dist STATIC_PATH=static yarn run build"
+        /bin/bash -c "yarn run compile && yarn run builder --linux --win"
     else
       yarn run dist
     fi
