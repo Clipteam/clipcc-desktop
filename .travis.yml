@@ -8,10 +8,6 @@ matrix:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
       before_script:
-        - unset CSC_LINK
-        - unset CSC_KEY_PASSWORD
-        - unset CSC_NAME
-        - unset CSC_KEYCHAIN
         - export CSC_IDENTITY_AUTO_DISCOVERY=false
     - os: linux
       services: docker
@@ -47,7 +43,7 @@ script:
       cat clipcc-desktop.env
       docker run --rm \
         --env-file ./clipcc-desktop.env \
-        -v ${PWD}:/clipcc-desktop \
+        -v ${PWD}:/project \
         -v ${PWD}/../clipcc-gui:/clipcc-gui \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
