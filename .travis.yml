@@ -45,7 +45,7 @@ script:
       touch clipcc-desktop.env
       env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|TRAVIS|CSC_|_TOKEN|_KEY|BUILD_' > ./clipcc-desktop.env
       docker run --rm \
-        --env-file ./clipcc-desktop.env
+        --env-file ./clipcc-desktop.env \
         -v ${PWD}:/project -v ${PWD##*/}-node-modules:/project/node_modules \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
