@@ -1,5 +1,14 @@
 matrix:
   include:
+    - os: osx
+      osx_image: xcode10.2
+      language: node_js
+      node_js: "10"
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+      before_script:
+        - export CSC_IDENTITY_AUTO_DISCOVERY=false
     - os: linux
       language: node_js
       node_js: "10"
@@ -29,7 +38,12 @@ install:
   - yarn link clipcc-gui
 
 script:
-  - yarn run dist --win
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      yarn run dist --win
+    else
+      yarn run dist
+    fi
 
 deploy:
   provider: releases
