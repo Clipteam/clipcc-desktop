@@ -50,8 +50,8 @@ script:
         /bin/bash -c "apt-get update \
           && apt-get install -y libxcomposite1 libxtst6 libgtk-3-0 \
             libpango-1.0-0 libatk1.0-0 libcairo2 libatspi2.0-0 \
-          && sudo groupadd docker \
-          && sudo usermod -aG docker \
+          && groupadd docker \
+          && usermod -aG docker \
           && cd /clipcc-gui && yarn link \
           && ldd /clipcc-desktop/node_modules/electron/dist/electron \
           && cd /clipcc-desktop && yarn link clipcc-gui \
