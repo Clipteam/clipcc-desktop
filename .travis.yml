@@ -5,7 +5,7 @@ matrix:
       node_js: "10"
       before_script:
         - sudo apt-get -qq install --no-install-recommends gcc-multilib g++-multilib lzip rpm
-        - apt-get purge -y --auto-remove && rm -rf /var/lib/apt/lists/*
+        - sudo apt-get purge -y --auto-remove && rm -rf /var/lib/apt/lists/*
         - sudo apt-get update
         - sudo apt-get install -y --no-install-recommends software-properties-common
         - sudo dpkg --add-architecture i386
