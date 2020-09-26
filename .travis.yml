@@ -55,7 +55,7 @@ script:
           && cd /clipcc-desktop && yarn link clipcc-gui \
           && cd ./node_modules/clipcc-gui \
           && BUILD_MODE=dist STATIC_PATH=static yarn run build \
-          && cd /clipcc-desktop && yarn run compile && yarn run builder --linux --win"
+          && cd /clipcc-desktop && yarn run compile --no-sandbox && yarn run builder --linux --win"
     else
       cd ../clipcc-gui
       yarn link
