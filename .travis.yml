@@ -4,9 +4,7 @@ matrix:
       language: node_js
       node_js: "10"
       before_script:
-        - sudo apt-get -qq install --no-install-recommends qtbase5-dev bsdtar build-essential
-          autoconf libssl-dev gcc-multilib g++-multilib lzip rpm python libcurl4 git git-lfs
-          ssh unzip libsecret-1-dev libgnome-keyring-dev libopenjp2-tools
+        - sudo apt-get -qq install --no-install-recommends gcc-multilib g++-multilib lzip rpm
         - apt-get purge -y --auto-remove && rm -rf /var/lib/apt/lists/*
         - sudo apt-get update
         - sudo apt-get install -y --no-install-recommends software-properties-common
@@ -16,7 +14,7 @@ matrix:
         - sudo apt-add-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
-        - sudo apt-get install -y --no-install-recommends rpm winehq-stable
+        - sudo apt-get install -y --no-install-recommends winehq-stable
         - sudo apt-get clean && rm -rf /var/lib/apt/lists/* && unlink winehq.key
 
 before_install:
