@@ -5,17 +5,17 @@ matrix:
       node_js: "10"
       before_script:
         - sudo apt-get -qq install --no-install-recommends gcc-multilib g++-multilib lzip rpm
-        - sudo apt-get purge -y --auto-remove && rm -rf /var/lib/apt/lists/*
+        - sudo apt-get purge -y --auto-remove && sudo rm -rf /var/lib/apt/lists/*
         - sudo apt-get update
         - sudo apt-get install -y --no-install-recommends software-properties-common
         - sudo dpkg --add-architecture i386
-        - curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key > winehq.key
+        - sudo curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key > winehq.key
         - sudo apt-key add winehq.key
         - sudo apt-add-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
         - sudo apt-get install -y --no-install-recommends winehq-stable
-        - sudo apt-get clean && rm -rf /var/lib/apt/lists/* && unlink winehq.key
+        - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
 
 before_install:
   - npm install -g cross-env
