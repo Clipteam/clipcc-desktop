@@ -10,9 +10,9 @@ before_install:
 
 install:
   - cd ../clipcc-gui
-  - yarn
+  - yarn && yarn link
   - cd ../clipcc-desktop
-  - yarn
+  - yarn && yarn link clipcc-gui
 
 script:
   - yarn run dist
