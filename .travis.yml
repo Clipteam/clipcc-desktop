@@ -26,15 +26,6 @@ matrix:
         - sudo apt-get install -y --no-install-recommends winehq-stable
         - sudo apt-get clean && rm -rf /var/lib/apt/lists/* && unlink winehq.key
 
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
-
-cache:
-  directories:
-    - node_modules
-    - $HOME/.cache/electron
-    - $HOME/.cache/electron-builder
-
 before_install:
   - npm install -g cross-env
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
