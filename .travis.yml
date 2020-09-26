@@ -1,48 +1,14 @@
 matrix:
   include:
-    - os: osx
-      osx_image: xcode10.2
-      language: node_js
-      node_js: "10"
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
-      before_script:
-        - export CSC_IDENTITY_AUTO_DISCOVERY=false
     - os: linux
       language: node_js
       node_js: "10"
-      before_script:
-        - sudo apt-get update
-        - sudo apt-get install -y --no-install-recommends software-properties-common
-        - dpkg --add-architecture i386
-        - curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key > winehq.key
-        - sudo apt-key add winehq.key
-        - sudo apt-add-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
-        - sudo apt-get update
-        - sudo apt-get -y rpm purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
-        - sudo apt-get install -y --no-install-recommends winehq-stable
-        - sudo apt-get clean && rm -rf /var/lib/apt/lists/* && unlink winehq.key
-
-before_install:
-  - npm install -g cross-env
-  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
 
 install:
-  - cd ../clipcc-gui
   - yarn
-  - yarn link
-  - cd ../clipcc-desktop
-  - yarn
-  - yarn link clipcc-gui
 
 script:
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      yarn run dist --win
-    else
-      yarn run dist
-    fi
+  - yarn run dist
 
 deploy:
   provider: releases
