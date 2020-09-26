@@ -53,6 +53,7 @@ script:
           && groupadd docker \
           && useradd clipcc \
           && usermod -aG docker clipcc \
+          && su clipcc \
           && cd /clipcc-gui && yarn link \
           && ldd /clipcc-desktop/node_modules/electron/dist/electron \
           && cd /clipcc-desktop && yarn link clipcc-gui \
