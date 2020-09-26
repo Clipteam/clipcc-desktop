@@ -34,7 +34,6 @@ install:
   - yarn
   - cd ../clipcc-desktop
   - yarn
-  - ldd /clipcc-desktop/node_modules/electron/dist/electron \
 
 script:
   - |
@@ -50,6 +49,7 @@ script:
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
         /bin/bash -c "cd /clipcc-gui && yarn link \
+          && ldd /clipcc-desktop/node_modules/electron/dist/electron \
           && cd /clipcc-desktop && yarn link clipcc-gui \
           && cd ./node_modules/clipcc-gui \
           && BUILD_MODE=dist STATIC_PATH=static yarn run build \
