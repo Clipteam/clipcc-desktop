@@ -32,9 +32,11 @@ before_install:
 
 install:
   - cd ../clipcc-gui
-  - yarn && yarn link
+  - yarn
+  - yarn link
   - cd ../clipcc-desktop
-  - yarn && yarn link clipcc-gui
+  - yarn
+  - yarn link clipcc-gui
 
 script:
   - |
