@@ -23,8 +23,5 @@ const child = childProcess.spawnSync(
     }
 );
 
-if (child.error) {
-    console.error(child.error);
-    throw child.error;
-}
+if (child.error) throw child.error;
 process.exit(child.status);

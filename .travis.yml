@@ -14,6 +14,17 @@ matrix:
       services: docker
       language: node_js
       node_js: "10"
+      before_script:
+        - sudo apt-get update
+        - sudo apt-get install -y --no-install-recommends software-properties-common
+        - dpkg --add-architecture i386
+        - curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key > winehq.key
+        - sudo apt-key add winehq.key
+        - sudo apt-add-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
+        - sudo apt-get update
+        - sudo apt-get -y rpm purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
+        - sudo apt-get install -y --no-install-recommends winehq-stable
+        - sudo apt-get clean && rm -rf /var/lib/apt/lists/* && unlink winehq.key
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
@@ -30,41 +41,15 @@ before_install:
 
 install:
   - cd ../clipcc-gui
-  - yarn
+  - yarn && yarn link
   - cd ../clipcc-desktop
-  - yarn
+  - yarn && yarn link clipcc-gui
 
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      touch clipcc-desktop.env
-      env | grep -vE '\r|\n' | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|TRAVIS|CSC_|_TOKEN|_KEY|BUILD_' > ./clipcc-desktop.env
-      cat clipcc-desktop.env
-      docker run --rm \
-        --env-file ./clipcc-desktop.env \
-        -v ${PWD}:/clipcc-desktop \
-        -v ${PWD}/../clipcc-gui:/clipcc-gui \
-        -v ~/.cache/electron:/root/.cache/electron \
-        -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-        electronuserland/builder:wine \
-        /bin/bash -c "apt-get update \
-          && apt-get install -y libxcomposite1 libxtst6 libgtk-3-0 \
-            libpango-1.0-0 libatk1.0-0 libcairo2 libatspi2.0-0 \
-          && groupadd docker \
-          && useradd clipcc \
-          && usermod -aG docker clipcc \
-          && su clipcc \
-          && cd /clipcc-gui && yarn link \
-          && ldd /clipcc-desktop/node_modules/electron/dist/electron \
-          && cd /clipcc-desktop && yarn link clipcc-gui \
-          && cd ./node_modules/clipcc-gui \
-          && BUILD_MODE=dist STATIC_PATH=static yarn run build \
-          && cd /clipcc-desktop && yarn run compile --no-sandbox && yarn run builder --linux --win"
+      yarn run dist --win
     else
-      cd ../clipcc-gui
-      yarn link
-      cd ../clipcc-desktop
-      yarn link clipcc-gui
       yarn run dist
     fi
 

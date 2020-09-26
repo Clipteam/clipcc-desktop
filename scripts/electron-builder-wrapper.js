@@ -87,7 +87,7 @@ const calculateTargets = function () {
         // Add 'mas-dev' here to test a 'mas'-like build locally. You'll need a Mac Developer provisioning profile.
         return ['mas', 'dmg'];
     case 'linux':
-        return ['zip', 'deb', 'rpm'];
+        return ['zip', 'deb'];
     }
     throw new Error(`Could not determine targets for platform: ${process.platform}`);
 };
