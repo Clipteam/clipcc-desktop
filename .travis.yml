@@ -11,7 +11,7 @@ matrix:
         - sudo dpkg --add-architecture i386
         - sudo curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key > winehq.key
         - sudo apt-key add winehq.key
-        - sudo apt-add-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
+        - sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/ xenial main'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
         - sudo apt-get install -y --no-install-recommends winehq-stable
