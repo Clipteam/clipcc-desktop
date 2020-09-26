@@ -14,7 +14,7 @@ matrix:
         - sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/ xenial main'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
-        - sudo apt-get install -y --no-install-recommends winehq-stable
+        - sudo apt-get install -y --no-install-recommends --allow-unauthenticated winehq-stable
         - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
 
 before_install:
