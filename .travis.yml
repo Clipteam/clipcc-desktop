@@ -14,7 +14,7 @@ matrix:
       language: node_js
       node_js: "10"
       before_script:
-        - sudo apt-get install rpm
+        - sudo apt-get install rpm libxcomposite1
 
 before_cache:
   - rm -rf $HOME/.cache/electron-builder/wine
