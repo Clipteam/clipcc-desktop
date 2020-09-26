@@ -10,7 +10,6 @@ matrix:
       before_script:
         - export CSC_IDENTITY_AUTO_DISCOVERY=false
     - os: linux
-      dist: bonic
       language: node_js
       node_js: "10"
       before_script:
