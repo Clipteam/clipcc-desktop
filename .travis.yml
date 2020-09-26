@@ -9,6 +9,9 @@ before_install:
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
 
 install:
+  - cd ../clipcc-gui
+  - yarn
+  - cd ../clipcc-desktop
   - yarn
 
 script:
