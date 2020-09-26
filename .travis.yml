@@ -4,6 +4,10 @@ matrix:
       language: node_js
       node_js: "10"
 
+before_install:
+  - npm install -g cross-env
+  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
+
 install:
   - yarn
 
