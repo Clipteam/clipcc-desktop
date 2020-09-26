@@ -27,13 +27,13 @@ cache:
 
 before_install:
   - npm install -g cross-env
-  - git clone https://github.com/Clipteam/clipcc-gui.git clipcc-gui
+  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
 
 install:
-  - cd clipcc-gui
-  - yarn && yarn link
-  - cd ..
-  - yarn && yarn link clipcc-gui
+  - cd ../clipcc-gui
+  - yarn
+  - cd ../clipcc-desktop
+  - yarn
 
 script:
   - |
@@ -41,15 +41,23 @@ script:
       touch clipcc-desktop.env
       env | grep -vE '\r|\n' | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|TRAVIS|CSC_|_TOKEN|_KEY|BUILD_' > ./clipcc-desktop.env
       cat clipcc-desktop.env
-      docker run --rm \
+      sudo docker run --rm \
         --env-file ./clipcc-desktop.env \
-        -v ${PWD}:/project \
+        -v ${PWD}:/clipcc-desktop \
+        -v ${PWD}/../clipcc-gui:/clipcc-gui \
         -v ~/.cache/electron:/root/.cache/electron \
         -v ~/.cache/electron-builder:/root/.cache/electron-builder \
         electronuserland/builder:wine \
-        /bin/bash -c "cd ./node_modules/clipcc-gui && BUILD_MODE=dist STATIC_PATH=static yarn run build"
-        /bin/bash -c "yarn run compile && yarn run builder --linux --win"
+        /bin/bash -c "cd /clipcc-gui && yarn link \
+          && cd /clipcc-desktop && yarn link clipcc-gui \
+          && cd ./node_modules/clipcc-gui \
+          && BUILD_MODE=dist STATIC_PATH=static yarn run build \
+          && yarn run compile && yarn run builder --linux --win"
     else
+      cd ../clipcc-gui
+      yarn link
+      cd ../clipcc-desktop
+      yarn link clipcc-gui
       yarn run dist
     fi
 
