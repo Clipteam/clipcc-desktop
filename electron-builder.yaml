@@ -1,18 +1,19 @@
-directories:
-  buildResources: buildResources
-  output: dist
 appId: com.codingclip.clipcc3
 productName: clipcc
-win:
-  target:
-    - zip
-    - nsis
-linux:
-  target:
-    - zip
-    - deb
-    - rpm
+artifactName: clipcc-${os}-${arch}-${version}.${ext}
+copyright: Copyright © 2019-2020 Clip Team.
 compression: normal
+directories:
+  buildResources: buildResources
+  output: dist/
+win:
+  target: [ zip, nsis ]
+linux:
+  category: Development
+  target: [ zip, deb, rpm ]
+mac:
+  category: public.app-category.developer-tools
+  target: [ zip, mas, dmg ]
 nsis:
   oneClick: false
   allowElevation: true

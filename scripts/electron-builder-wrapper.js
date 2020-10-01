@@ -85,9 +85,9 @@ const calculateTargets = function () {
         // Seems like a bug in electron-builder...
         // Running the 'mas' build first means that its output is available while we wait for 'dmg' notarization.
         // Add 'mas-dev' here to test a 'mas'-like build locally. You'll need a Mac Developer provisioning profile.
-        return ['mas', 'dmg'];
+        return ['zip', 'mas', 'dmg'];
     case 'linux':
-        return ['zip', 'deb'];
+        return ['zip', 'deb', 'rpm'];
     }
     throw new Error(`Could not determine targets for platform: ${process.platform}`);
 };
