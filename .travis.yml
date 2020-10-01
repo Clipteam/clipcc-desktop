@@ -31,18 +31,24 @@ before_install:
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
 
 install:
-  - yarn
+  - yarn --no-lockfile
   - cd ../clipcc-gui
-  - yarn && yarn link
+  - yarn --no-lockfile && yarn link
   - cd ../clipcc-desktop
   - yarn link clipcc-gui
 
 script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      yarn run dist --win
+      yarn run build-gui
+      yarn run fetch
+      yarn run compile -p
+      npx electron-builder --linux --win --ia32 --x64
     else
-      yarn run dist
+      yarn run build-gui
+      yarn run fetch
+      yarn run compile -p
+      npx electron-builder --mac
     fi
 
 deploy:
