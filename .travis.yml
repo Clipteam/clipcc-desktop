@@ -44,7 +44,7 @@ script:
       yarn run fetch
       yarn run compile -p
       npx electron-builder --linux --x64
-      npx electron-builder --linux --ia32 --x64
+      npx electron-builder --win --ia32 --x64
     else
       yarn run build-gui
       yarn run fetch
