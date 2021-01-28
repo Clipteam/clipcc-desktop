@@ -1,4 +1,4 @@
-import {BrowserWindow, Menu, app, dialog, ipcMain, systemPreferences, protocol} from 'electron';
+import {BrowserWindow, Menu, app, dialog, ipcMain, systemPreferences, globalShortcut} from 'electron';
 import fs from 'fs';
 import path from 'path';
 import {URL} from 'url';
@@ -160,10 +160,6 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
 
     webContents.session.setPermissionRequestHandler(handlePermissionRequest);
 
-    if (isDevelopment) {
-        webContents.openDevTools({mode: 'detach', activate: true});
-    }
-
     const fullUrl = makeFullUrl(url, search);
     window.loadURL(fullUrl);
 
@@ -312,6 +308,10 @@ app.on('ready', () => {
     _windows.about.on('close', event => {
         event.preventDefault();
         _windows.about.hide();
+    });
+
+    globalShortcut.register('CommandOrControl+Alt+D', () => {
+        _windows.main.webContents.openDevTools({mode: 'detach', activate: true});
     });
 });
 
