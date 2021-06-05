@@ -116,14 +116,36 @@ const calculateTargets = function (wrapperConfig) {
         windowsDirectDownload: {
             name: 'nsis:ia32',
             platform: 'win32'
+        },
+        windowsPortable: {
+            name: 'zip',
+            platform: 'win32'
+        },
+        linuxPortable: {
+            name: 'zip',
+            platform: 'linux'
+        },
+        linuxDebPackage: {
+            name: 'deb',
+            platform: 'linux'
+        },
+        linuxRpmPackage: {
+            name: 'rpm',
+            platform: 'linux'
         }
     };
     const targets = [];
     switch (process.platform) {
     case 'win32':
         // Run in two passes so we can skip signing the AppX for distribution through the MS Store.
-        targets.push(availableTargets.microsoftStore);
-        targets.push(availableTargets.windowsDirectDownload);
+        //targets.push(availableTargets.microsoftStore);
+        //targets.push(availableTargets.windowsDirectDownload);
+        targets.push(availableTargets.windowsPortable);
+        break;
+    case 'linux':
+        targets.push(availableTargets.linuxPortable);
+        targets.push(availableTargets.linuxDebPackage);
+        targets.push(availableTargets.linuxRpmPackage);
         break;
     case 'darwin':
         // Running 'dmg' and 'mas' in the same pass causes electron-builder to skip signing the non-MAS app copy.

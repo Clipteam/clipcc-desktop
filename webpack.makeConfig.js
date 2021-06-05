@@ -69,7 +69,7 @@ const makeConfig = function (defaultConfig, options) {
                     loader: 'babel-loader',
                     options: babelOptions
                 },
-                { // coped from scratch-gui
+                { // coped from clipcc-gui
                     test: /\.css$/,
                     use: [{
                         loader: 'style-loader'
@@ -112,11 +112,11 @@ const makeConfig = function (defaultConfig, options) {
         resolve: {
             cacheWithContext: false,
             symlinks: false,
-            alias: {
-                // act like scratch-gui has this line in its package.json:
+            /*alias: {
+                // act like clipcc-gui has this line in its package.json:
                 //   "browser": "./src/index.js"
-                'scratch-gui$': path.resolve(__dirname, 'node_modules', 'scratch-gui', 'src', 'index.js')
-            }
+                'clipcc-gui$': path.resolve(__dirname, 'node_modules', 'clipcc-gui', 'src', 'index.js')
+            }*/
         }
     });
 

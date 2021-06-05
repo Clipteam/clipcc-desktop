@@ -1,0 +1,67 @@
+matrix:
+  include:
+    - os: linux
+      language: node_js
+      node_js: "10"
+      before_script:
+        - sudo apt-get -qq install --no-install-recommends gcc-multilib g++-multilib lzip rpm
+        - sudo apt-get purge -y --auto-remove && sudo rm -rf /var/lib/apt/lists/*
+        - sudo apt-get update
+        - sudo apt-get install -y --no-install-recommends software-properties-common
+        - sudo dpkg --add-architecture i386
+        - sudo curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key > winehq.key
+        - sudo apt-key add winehq.key
+        - sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/ xenial main'
+        - sudo apt-get update
+        - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
+        - sudo apt-get install -y --no-install-recommends --allow-unauthenticated winehq-stable
+        - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
+    - os: osx
+      osx_image: xcode10.2
+      language: node_js
+      node_js: "10"
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+      before_script:
+        - export CSC_IDENTITY_AUTO_DISCOVERY=false
+
+before_install:
+  - npm install -g cross-env
+  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
+
+install:
+  - yarn --no-lockfile
+  - cd ../clipcc-gui
+  - yarn --no-lockfile && yarn link
+  - NODE_ENV=production yarn run dist
+  - cd ../clipcc-desktop
+  - yarn link clipcc-gui
+
+script:
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      yarn run fetch
+      NODE_ENV=production yarn run compile
+      npx electron-builder --linux --x64
+      npx electron-builder --win --ia32 --x64
+    else
+      yarn run fetch
+      NODE_ENV=production yarn run compile
+      npx electron-builder --mac
+    fi
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file_glob: true
+  file:
+    - dist/*.zip
+    - dist/*.deb
+    - dist/*.rpm
+    - dist/*.exe
+    - dist/*.dmg
+    - dist/*.pkg
+  skip_cleanup: true
+  on:
+    tags: true

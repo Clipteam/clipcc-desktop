@@ -6,11 +6,11 @@ Scratch 3.0 as a standalone desktop application
 
 ### Releasing a new version
 
-Let's assume that you want to make a new release, version `3.999.0`, corresponding to `scratch-gui` version
+Let's assume that you want to make a new release, version `3.999.0`, corresponding to `clipcc-gui` version
 `0.1.0-prerelease.20yymmdd`.
 
-1. Merge `scratch-gui`:
-   1. `cd scratch-gui`
+1. Merge `clipcc-gui`:
+   1. `cd clipcc-gui`
    2. `git pull --all --tags`
    3. `git checkout scratch-desktop`
    4. `git merge 0.1.0-prerelease.20yymmdd`
@@ -22,29 +22,29 @@ Let's assume that you want to make a new release, version `3.999.0`, correspondi
    1. `cd scratch-desktop`
    2. `git pull --all --tags`
    3. `git checkout develop`
-   4. `npm install --save-dev 'scratch-gui@github:LLK/scratch-gui#scratch-desktop-v3.999.0'`
+   4. `npm install --save-dev 'clipcc-gui@github:clipteam/clipcc-gui#scratch-desktop-v3.999.0'`
    5. `git add package.json package-lock.json`
    6. Make sure the app works, the diffs look reasonable, etc.
-   7. `git commit -m "bump scratch-gui to scratch-desktop-v3.999.0"`
+   7. `git commit -m "bump clipcc-gui to scratch-desktop-v3.999.0"`
    8. `npm version 3.999.0`
    9. `git push`
    10. `git push --tags`
 3. Wait for the CI build and collect the release from the build artifacts
 
-### A note about `scratch-gui`
+### A note about `clipcc-gui`
 
 Eventually, the `scratch-desktop` branch of the Scratch GUI repository will be merged with that repository's main
 development line. For now, though, the `scratch-desktop` branch holds a few changes that are necessary for the Scratch
 app to function correctly but are not yet merged into the main development branch. If you only intend to build or work
-on the `scratch-desktop` repository then you can ignore this, but if you intend to work on `scratch-gui` as well, make
+on the `scratch-desktop` repository then you can ignore this, but if you intend to work on `clipcc-gui` as well, make
 sure you use the `scratch-desktop` branch there.
 
-Previously it was necessary to explicitly build `scratch-gui` before building `scratch-desktop`. This is no longer
+Previously it was necessary to explicitly build `clipcc-gui` before building `scratch-desktop`. This is no longer
 necessary and the related build scripts, such as `build-gui`, have been removed.
 
 ### Prepare media library assets
 
-In the `scratch-desktop` directory, run `npm run fetch`. Re-run this any time you update `scratch-gui` or make any
+In the `scratch-desktop` directory, run `npm run fetch`. Re-run this any time you update `clipcc-gui` or make any
 other changes which might affect the media libraries.
 
 ### Run in development mode

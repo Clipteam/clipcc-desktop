@@ -5,7 +5,7 @@ The development of Scratch is an ongoing process, and we love to have people in 
 
 * **Documenting bugs**
   * If you've identified a bug in Scratch you should first check to see if it's been filed as an issue, if not you can file one.  Make sure you follow the issue template.
-  * It's important that we can consistently reproduce issues. When writing an issue, be sure to follow our [reproduction step guidelines](https://github.com/LLK/scratch-gui/wiki/Writing-good-repro-steps).
+  * It's important that we can consistently reproduce issues. When writing an issue, be sure to follow our [reproduction step guidelines](https://github.com/clipteam/clipcc-gui/wiki/Writing-good-repro-steps).
     * Some issues are marked "Needs Repro". Adding a comment with good reproduction steps to those issues is a great way to help.
   * If you don't have an issue in mind already, you can look through the [Bugs & Glitches forum.](https://scratch.mit.edu/discuss/3/) Look for users reporting problems, reproduce the problem yourself, and file new issues following our guidelines. 
 
