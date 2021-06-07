@@ -23,8 +23,8 @@ publish: # empty provider list = don't publish
 #  target:
 #    - dmg
 #    - mas
-#dmg:
-#  title: "Scratch ${version}"
+dmg:
+  title: "ClipCC 3 ${version}"
 #mas:
 #  category: public.app-category.education
 #  entitlements: buildResources/entitlements.mas.plist
@@ -48,6 +48,7 @@ nsis:
   allowToChangeInstallationDirectory: true
   createDesktopShortcut: true
   createStartMenuShortcut: true
+  license: LICENSE
   include: buildResources/install.nsh
 linux:
   category: Development

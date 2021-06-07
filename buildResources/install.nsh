@@ -18,7 +18,7 @@
     WriteRegStr HKCR ".cc3" "PerceivedType" "compressed"
     WriteRegStr HKCR ".cc3\OpenWithProgIds" "clipcc.cc3" ""
     
-    WriteRegStr HKCR ".ccx" "" "clipcc.cc3"
+    WriteRegStr HKCR ".ccx" "" "clipcc.ccx"
     WriteRegStr HKCR ".ccx" "Content Type" "application/x-zip-compressed"
     WriteRegStr HKCR ".ccx" "PerceivedType" "compressed"
     WriteRegStr HKCR ".cc3\OpenWithProgIds" "clipcc.ccx" ""

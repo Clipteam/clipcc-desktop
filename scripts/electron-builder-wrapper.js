@@ -139,7 +139,7 @@ const calculateTargets = function (wrapperConfig) {
     case 'win32':
         // Run in two passes so we can skip signing the AppX for distribution through the MS Store.
         //targets.push(availableTargets.microsoftStore);
-        //targets.push(availableTargets.windowsDirectDownload);
+        targets.push(availableTargets.windowsDirectDownload);
         targets.push(availableTargets.windowsPortable);
         break;
     case 'linux':

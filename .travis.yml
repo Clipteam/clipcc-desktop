@@ -43,12 +43,12 @@ script:
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       yarn run fetch
       NODE_ENV=production yarn run compile
-      npx electron-builder --linux --x64
-      npx electron-builder --win --ia32 --x64
+      yarn electron-builder --linux --x64
+      yarn electron-builder --win --ia32 --x64
     else
       yarn run fetch
       NODE_ENV=production yarn run compile
-      npx electron-builder --mac
+      yarn electron-builder --mac
     fi
 
 deploy:
