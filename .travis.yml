@@ -1,8 +1,8 @@
-matrix:
+jobs:
   include:
     - os: linux
       language: node_js
-      node_js: "10"
+      node_js: 14
       before_script:
         - sudo apt-get -qq install --no-install-recommends gcc-multilib g++-multilib lzip rpm
         - sudo apt-get purge -y --auto-remove && sudo rm -rf /var/lib/apt/lists/*
@@ -19,7 +19,7 @@ matrix:
     - os: osx
       osx_image: xcode10.2
       language: node_js
-      node_js: "10"
+      node_js: 14
       env:
         - ELECTRON_CACHE=$HOME/.cache/electron
         - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
@@ -31,9 +31,9 @@ before_install:
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
 
 install:
-  - yarn --no-lockfile
+  - yarn --frozen-lockfile
   - cd ../clipcc-gui
-  - yarn --no-lockfile && yarn link
+  - yarn --frozen-lockfile && yarn link
   - NODE_ENV=production yarn run dist
   - cd ../clipcc-desktop
   - yarn link clipcc-gui
@@ -53,15 +53,14 @@ script:
 
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
+  token: $GITHUB_TOKEN
   file_glob: true
   file:
-    - dist/*.zip
-    - dist/*.deb
-    - dist/*.rpm
-    - dist/*.exe
-    - dist/*.dmg
-    - dist/*.pkg
-  skip_cleanup: true
+    - dist/*-*-*-*.zip
+    - dist/*-*-*-*.deb
+    - dist/*-*-*-*.rpm
+    - dist/*-*-*-*.exe
+    - dist/*-*-*-*.dmg
+    - dist/*-*-*-*.pkg
   on:
     tags: true
