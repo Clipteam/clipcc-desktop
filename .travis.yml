@@ -34,7 +34,7 @@ install:
   - yarn --frozen-lockfile
   - cd ../clipcc-gui
   - yarn --frozen-lockfile && yarn link
-  - NODE_ENV=production yarn run dist
+  - NODE_ENV=production yarn run build:dist
   - cd ../clipcc-desktop
   - yarn link clipcc-gui
 
