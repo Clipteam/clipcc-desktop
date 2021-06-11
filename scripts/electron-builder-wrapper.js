@@ -114,7 +114,7 @@ const calculateTargets = function (wrapperConfig) {
             platform: 'win32'
         },
         windowsDirectDownload: {
-            name: 'nsis:ia32',
+            name: 'nsis:x64',
             platform: 'win32'
         },
         windowsPortable: {
@@ -139,8 +139,9 @@ const calculateTargets = function (wrapperConfig) {
     case 'win32':
         // Run in two passes so we can skip signing the AppX for distribution through the MS Store.
         //targets.push(availableTargets.microsoftStore);
-        targets.push(availableTargets.windowsDirectDownload);
         targets.push(availableTargets.windowsPortable);
+        targets.push({ name: 'nsis:ia32', platform: 'win32' });
+        targets.push({ name: 'nsis:x64', platform: 'win32' });
         break;
     case 'linux':
         targets.push(availableTargets.linuxPortable);

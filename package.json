@@ -47,7 +47,7 @@
     "clipcc-gui": "latest",
     "copy-webpack-plugin": "^5.1.1",
     "electron": "8.2.5",
-    "electron-builder": "^22.11.5",
+    "electron-builder": "22.11.7",
     "electron-devtools-installer": "^3.0.0",
     "electron-notarize": "^0.3.0",
     "electron-store": "^5.1.1",
