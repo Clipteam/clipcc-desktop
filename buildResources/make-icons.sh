@@ -1,8 +1,9 @@
 #!/bin/bash
-SRC=../src/icon/ScratchDesktop.svg
-OUT_ICONSET=ScratchDesktop.iconset
-OUT_ICNS=ScratchDesktop.icns
-OUT_ICO=ScratchDesktop.ico
+SRC=../src/icon/ClipCC.svg
+SRC_MAC=../src/icon/ClipCCMac.png
+OUT_ICONSET=ClipCC.iconset
+OUT_ICNS=ClipCC.icns
+OUT_ICO=ClipCC.ico
 TMP_ICO=tmp
 
 ICO_BASIC_SIZES="16 24 32 48 256"
@@ -39,7 +40,7 @@ if command -v convert >/dev/null 2>&1; then
             resize "${SIZE}" "${SIZE}" "${SRC}" "${OUT_ICONSET}/icon_${SIZE}x${SIZE}.png" -density 72 -units PixelsPerInch
             resize "${SIZE2}" "${SIZE2}" "${SRC}" "${OUT_ICONSET}/icon_${SIZE}x${SIZE}@2x.png" -density 144 -units PixelsPerInch
         done
-        iconutil -c icns --output "${OUT_ICNS}" "${OUT_ICONSET}"
+        iconutil -c icns --output "${OUT_ICNS}" "${SRC_MAC}"
     else
         echo "iconutil is not available - skipping ICNS and ICONSET"
     fi
