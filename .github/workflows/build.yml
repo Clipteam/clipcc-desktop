@@ -24,7 +24,11 @@ jobs:
           node-version: 14
       
       - name: Install dependencies
-        run: yarn
+        run: |
+          yarn
+          cd node_modules/clipcc-gui
+          yarn
+          cd ../..
       
       - name: Compile
         run: |
