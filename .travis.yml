@@ -10,9 +10,9 @@ jobs:
         - sudo apt-get update
         - sudo apt-get install -y --no-install-recommends software-properties-common
         - sudo dpkg --add-architecture i386
-        - sudo curl -L https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key > winehq.key
+        - sudo wget -nc https://dl.winehq.org/wine-builds/winehq.key
         - sudo apt-key add winehq.key
-        - sudo apt-add-repository 'https://dl.winehq.org/wine-builds/ubuntu/ xenial main'
+        - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
         - sudo apt-get install -y --no-install-recommends --allow-unauthenticated winehq-stable
