@@ -58,15 +58,18 @@ script:
   - yarn link clipcc-vm
   - yarn link clipcc-block
   - yarn --frozen-lockfile
+  - yarn run fetch
+  - NODE_ENV=production yarn run compile
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      yarn run fetch
-      NODE_ENV=production yarn run compile
       yarn electron-builder --linux --x64
-      travis_wait 60 yarn electron-builder --win --ia32 --x64
-    else
-      yarn run fetch
-      NODE_ENV=production yarn run compile
+    fi
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      yarn electron-builder --win --ia32 --x64
+    fi
+  - |
+    if [ "$TRAVIS_OS_NAME" == "osx" ]; then
       yarn electron-builder --mac
     fi
 
