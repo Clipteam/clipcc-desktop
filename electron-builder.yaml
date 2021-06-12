@@ -20,9 +20,7 @@ mac:
  icon: buildResources/ClipCC.icns
  provisioningProfile: embedded.provisionprofile
  artifactName: "ClipCC ${version}.${ext}"
- target:
-   - dmg
-   - mas
+ target: [ dmg ]
 dmg:
   title: "ClipCC 3 ${version}"
 #mas:
