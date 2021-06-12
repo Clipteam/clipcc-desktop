@@ -1,6 +1,7 @@
 jobs:
   include:
     - os: linux
+      dist: bionic
       language: node_js
       node_js: 14
       before_script:
@@ -17,7 +18,7 @@ jobs:
         - sudo apt-get install -y --no-install-recommends --allow-unauthenticated winehq-stable
         - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode12.5
       language: node_js
       node_js: 14
       env:
@@ -28,15 +29,21 @@ jobs:
 
 before_install:
   - npm install -g cross-env
-  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui
+  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui --depth=10
+  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-vm --depth=10
+  - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-block --depth=10
 
 install:
   - yarn --frozen-lockfile
   - cd ../clipcc-gui
   - yarn --frozen-lockfile && yarn link
   - NODE_ENV=production yarn run build:dist
+  - cd ../clipcc-vm && yarn link
+  - cd ../clipcc-block && yarn link
   - cd ../clipcc-desktop
   - yarn link clipcc-gui
+  - yarn link clipcc-vm
+  - yarn link clipcc-block
 
 script:
   - |

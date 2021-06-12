@@ -125,6 +125,9 @@ const makeConfig = function (defaultConfig, options) {
     if (!process.env.CI) {
         config.plugins.push(new webpack.ProgressPlugin());
     }
+    else {
+        config.stats = 'minimal';
+    }
 
     fs.writeFileSync(
         `dist/webpack.${options.name}.js`,
