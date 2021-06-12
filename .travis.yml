@@ -15,9 +15,8 @@ jobs:
         - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
-        - sudo wget https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/amd64/libfaudio0_19.07-0~bionic_amd64.deb
-        - sudo wget https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/i386/libfaudio0_19.07-0~bionic_i386.deb
-        - sudo dpkg -i libfaudio0_19.07-0~bionic_amd64.deb libfaudio0_19.07-0~bionic_i386.deb
+        - sudo apt-add-repository ppa:cybermax-dexter/sdl2-backport
+        - sudo apt-get update
         - sudo apt-get install --install-recommends winehq-stable
         - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
     - os: osx
