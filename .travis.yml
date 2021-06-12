@@ -10,13 +10,15 @@ jobs:
         - sudo apt-get update
         - sudo apt-get install -y --no-install-recommends software-properties-common
         - sudo dpkg --add-architecture i386
+        - sudo wget -nc https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/Release.key
+        - sudo apt-key add Release.key
+        - sudo add-apt-repository 'deb https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/ ./'
+        - sudo apt-get update
         - sudo wget -nc https://dl.winehq.org/wine-builds/winehq.key
         - sudo apt-key add winehq.key
         - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
-        - sudo add-apt-repository ppa:cybermax-dexter/sdl2-backport
-        - sudo apt-get update
         - sudo apt-get install --install-recommends winehq-stable
         - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
     - os: osx
