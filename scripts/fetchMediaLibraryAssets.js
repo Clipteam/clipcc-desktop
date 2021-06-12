@@ -80,7 +80,7 @@ const fetchAsset = function (md5, callback) {
         response.on('end', () => {
             connectionPool.push(myAgent);
             stream.end();
-            console.log(`Fetched ${urlHuman}`);
+            //console.log(`Fetched ${urlHuman}`);
             callback();
         });
     });

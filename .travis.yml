@@ -38,7 +38,6 @@ before_script:
   - git clone https://github.com/Clipteam/clipcc-block.git ../clipcc-block --depth=10
 
 script:
-  - yarn --frozen-lockfile
   - cd ../clipcc-gui
   - yarn --frozen-lockfile && yarn link
   - NODE_ENV=production yarn run build:dist
@@ -48,6 +47,7 @@ script:
   - yarn link clipcc-gui
   - yarn link clipcc-vm
   - yarn link clipcc-block
+  - yarn
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       yarn run fetch
