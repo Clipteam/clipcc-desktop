@@ -25,11 +25,18 @@ jobs:
       osx_image: xcode12.5
       language: node_js
       node_js: 14
-      env:
-        - ELECTRON_CACHE=$HOME/.cache/electron
-        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
       before_script:
         - export CSC_IDENTITY_AUTO_DISCOVERY=false
+
+env:
+  global:
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+cache:
+  directories:
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 
 before_script:
   - npm install -g cross-env
