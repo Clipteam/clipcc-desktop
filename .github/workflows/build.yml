@@ -1,0 +1,63 @@
+name: Build
+
+# Controls when the action will run. 
+on: workflow_dispatch
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ macos-latest, ubuntu-latest ]
+        
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v1
+
+      - name: Install node.js, npm and yarn
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      
+      - name: Compile
+        run: |
+          cd node_modules/clipcc-gui
+          NODE_ENV=production yarn run build:dist
+          cd ../..
+          NODE_ENV=production yarn run compile
+          
+      - name: Build (Linux & Windows)
+        if: ${{ startsWith(matrix.os, 'ubuntu') }}
+        run: |
+          docker run --rm \
+            --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+            -v ${PWD}:/project \
+            -v ~/.cache/electron:/root/.cache/electron \
+            -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+            electronuserland/builder:wine \
+            /bin/bash -c "yarn electron-builder --linux --x86 && electron-builder --win --ia32 --x86"
+  
+      - name: Build (Max OS)
+        if: ${{ startsWith(matrix.os, 'macos') }}
+        run: yarn electron-builder --mac
+
+      - name: GitHub Release
+        # If the commit is tagged with a version (e.g. "v1.0.0"),
+        # release the app after building
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        uses: softprops/action-gh-release@v0.1.5
+        with:
+          # Creates a draft release. Defaults to false
+          draft: true
+          # Identify the release as a prerelease. Defaults to false
+          prerelease: true
+          # Newline-delimited list of path globs for asset files to upload
+          files: dist/ *-*-*-*.{exe,zip,dmg,deb,rpm}
+
