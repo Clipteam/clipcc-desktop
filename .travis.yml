@@ -15,7 +15,7 @@ jobs:
         - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
-        - sudo apt-get install -y --no-install-recommends --allow-unauthenticated winehq-stable
+        - sudo apt-get install --install-recommends winehq-stable
         - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
     - os: osx
       osx_image: xcode12.5
@@ -71,3 +71,6 @@ deploy:
     - dist/*-*-*-*.pkg
   on:
     tags: true
+
+notifications:
+  webhooks: $WEBHOOK_URL
