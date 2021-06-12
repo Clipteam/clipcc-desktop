@@ -4,7 +4,7 @@ jobs:
       dist: bionic
       language: node_js
       node_js: 14
-      before_script:
+      before_install:
         - sudo apt-get -qq install --no-install-recommends gcc-multilib g++-multilib lzip rpm
         - sudo apt-get purge -y --auto-remove && sudo rm -rf /var/lib/apt/lists/*
         - sudo apt-get update
@@ -15,6 +15,9 @@ jobs:
         - sudo add-apt-repository 'deb https://dl.winehq.org/wine-builds/ubuntu/ bionic main'
         - sudo apt-get update
         - sudo apt-get -y purge software-properties-common libdbus-glib-1-2 python3-dbus python3-gi python3-pycurl python3-software-properties
+        - sudo wget https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/amd64/libfaudio0_19.07-0~bionic_amd64.deb
+        - sudo wget https://download.opensuse.org/repositories/Emulators:/Wine:/Debian/xUbuntu_18.04/i386/libfaudio0_19.07-0~bionic_i386.deb
+        - sudo dpkg -i libfaudio0_19.07-0~bionic_amd64.deb libfaudio0_19.07-0~bionic_i386.deb
         - sudo apt-get install --install-recommends winehq-stable
         - sudo apt-get clean && sudo rm -rf /var/lib/apt/lists/* && sudo unlink winehq.key
     - os: osx
@@ -27,13 +30,13 @@ jobs:
       before_script:
         - export CSC_IDENTITY_AUTO_DISCOVERY=false
 
-before_install:
+before_script:
   - npm install -g cross-env
   - git clone https://github.com/Clipteam/clipcc-gui.git ../clipcc-gui --depth=10
   - git clone https://github.com/Clipteam/clipcc-vm.git ../clipcc-vm --depth=10
   - git clone https://github.com/Clipteam/clipcc-block.git ../clipcc-block --depth=10
 
-install:
+script:
   - yarn --frozen-lockfile
   - cd ../clipcc-gui
   - yarn --frozen-lockfile && yarn link
@@ -44,8 +47,6 @@ install:
   - yarn link clipcc-gui
   - yarn link clipcc-vm
   - yarn link clipcc-block
-
-script:
   - |
     if [ "$TRAVIS_OS_NAME" == "linux" ]; then
       yarn run fetch
