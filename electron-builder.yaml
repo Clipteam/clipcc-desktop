@@ -22,7 +22,6 @@ mac:
  artifactName: "ClipCC ${version}.${ext}"
  target:
    - dmg
-   - mas
 dmg:
   title: "ClipCC 3 ${version}"
 #mas:
