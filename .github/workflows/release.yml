@@ -94,13 +94,13 @@ jobs:
       - name: Download results (Linux & Windows)
         uses: actions/download-artifact@v2
         with:
-          name: dist1
+          name: build1
           path: dist
 
       - name: Download results (Max OS)
         uses: actions/download-artifact@v2
         with:
-          name: dist2
+          name: build2
           path: dist
 
       - name: Upload binaries to release
