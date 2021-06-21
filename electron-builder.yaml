@@ -6,6 +6,9 @@ productName: ClipCC 3
 artifactName: clipcc3-${os}-${arch}-${version}.${ext}
 copyright: Copyright © 2019-2021 Clip Team.
 compression: normal
+extraResources:
+  - from: buildResources/icon
+    to: icon
 publish: # empty provider list = don't publish
 mac:
  category: public.app-category.education
@@ -17,9 +20,8 @@ mac:
        This app requires microphone access when recording sounds or detecting loudness.
  gatekeeperAssess: true
  hardenedRuntime: true
- icon: buildResources/ClipCC.icns
+ icon: buildResources/app.icns
  provisioningProfile: embedded.provisionprofile
- artifactName: "ClipCC ${version}.${ext}"
  target: [ dmg ]
 dmg:
   title: "ClipCC 3 ${version}"
@@ -33,7 +35,7 @@ dmg:
 #  type: development
 #  provisioningProfile: mas-dev.provisionprofile
 win:
-  icon: buildResources/ClipCC.ico
+  icon: buildResources/app.png
   target: [ zip, nsis ]
 #appx:
 #  identityName: ScratchFoundation.ScratchDesktop

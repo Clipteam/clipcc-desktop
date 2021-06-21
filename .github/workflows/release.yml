@@ -1,0 +1,114 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+jobs:
+  build1:
+    name: Build (Linux & Windows)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      
+      - name: Install dependencies
+        run: |
+          yarn
+          cd node_modules/clipcc-gui
+          yarn
+          cd ../..
+      
+      - name: Compile
+        run: |
+          export DISPLAY=':99.0'
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          cd node_modules/clipcc-gui
+          NODE_ENV=production yarn run build:dist
+          cd ../..
+          NODE_ENV=production yarn run compile
+          
+      - name: Build
+        run: |
+          docker run --rm \
+            --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
+            -v ${PWD}:/project \
+            -v ~/.cache/electron:/root/.cache/electron \
+            -v ~/.cache/electron-builder:/root/.cache/electron-builder \
+            electronuserland/builder:wine \
+            /bin/bash -c "yarn electron-builder --linux --x64 && yarn electron-builder --win --ia32 --x64"
+
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: build1
+          path: dist/*-*-*-*.{exe,zip,dmg,deb,rpm}
+
+  build2:
+    name: Build (Mac OS)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+      
+      - name: Install dependencies
+        run: |
+          yarn
+          cd node_modules/clipcc-gui
+          yarn
+          cd ../..
+      
+      - name: Compile
+        run: |
+          export DISPLAY=':99.0'
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          cd node_modules/clipcc-gui
+          NODE_ENV=production yarn run build:dist
+          cd ../..
+          NODE_ENV=production yarn run compile
+  
+      - name: Build
+        run: yarn electron-builder --mac
+
+      - name: Upload results
+        uses: actions/upload-artifact@v2
+        with:
+          name: build2
+          path: dist/*-*-*-*.{exe,zip,dmg,deb,rpm}
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [ build1, build2 ]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Download results (Linux & Windows)
+        uses: actions/download-artifact@v2
+        with:
+          name: dist1
+          path: dist
+
+      - name: Download results (Max OS)
+        uses: actions/download-artifact@v2
+        with:
+          name: dist2
+          path: dist
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GH_TOKEN }}
+          file: dist/*-*-*-*.{exe,zip,dmg,deb,rpm}
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
+
