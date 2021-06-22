@@ -39,13 +39,18 @@ jobs:
             -v ~/.cache/electron:/root/.cache/electron \
             -v ~/.cache/electron-builder:/root/.cache/electron-builder \
             electronuserland/builder:wine \
-            /bin/bash -c "yarn electron-builder --linux --x64 && yarn electron-builder --win --ia32 --x64"
+            /bin/bash -c "yarn electron-builder --linux --x64 && yarn electron-builder --win --x64 && yarn electron-builder --win --ia32"
 
       - name: Upload results
         uses: actions/upload-artifact@v2
         with:
           name: build1
-          path: dist/*-*-*-*.{exe,zip,dmg,deb,rpm}
+          path: |
+            dist/*.exe
+            dist/*.rpm
+            dist/*.deb
+            dist/*.zip
+            dist/*.dmg
 
   build2:
     name: Build (Mac OS)
@@ -79,7 +84,11 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build2
-          path: dist/*-*-*-*.{exe,zip,dmg,deb,rpm}
+            dist/*.exe
+            dist/*.rpm
+            dist/*.deb
+            dist/*.zip
+            dist/*.dmg
 
   release:
     name: Release
@@ -107,7 +116,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GH_TOKEN }}
-          file: dist/*-*-*-*.{exe,zip,dmg,deb,rpm}
+          file: dist/*
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
