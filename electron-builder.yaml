@@ -3,7 +3,7 @@ directories:
   output: dist
 appId: com.codingclip.clipcc3
 productName: ClipCC 3
-artifactName: clipcc3-${os}-${arch}-${version}.${ext}
+artifactName: clipcc-${version}-${os}-${arch}.${ext}
 copyright: Copyright © 2019-2021 Clip Team.
 compression: normal
 extraResources:
@@ -24,7 +24,7 @@ mac:
  provisioningProfile: embedded.provisionprofile
  target: [ dmg ]
 dmg:
-  title: "ClipCC 3 ${version}"
+  title: "ClipCC ${version}"
 #mas:
 #  category: public.app-category.education
 #  entitlements: buildResources/entitlements.mas.plist

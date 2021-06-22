@@ -84,6 +84,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build2
+          path: |
             dist/*.exe
             dist/*.rpm
             dist/*.deb
