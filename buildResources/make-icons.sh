@@ -1,9 +1,9 @@
 #!/bin/bash
-SRC=../src/icon/ClipCC.svg
-SRC_MAC=../src/icon/ClipCCMac.png
-OUT_ICONSET=ClipCC.iconset
-OUT_ICNS=ClipCC.icns
-OUT_ICO=ClipCC.ico
+SRC=../src/icon/app.png
+SRC_MAC=../src/icon/app_mac.png
+OUT_ICONSET=app.iconset
+OUT_ICNS=app.icns
+OUT_ICO=app.ico
 TMP_ICO=tmp
 
 ICO_BASIC_SIZES="16 24 32 48 256"
