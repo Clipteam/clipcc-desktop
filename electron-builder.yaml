@@ -35,7 +35,7 @@ dmg:
 #  type: development
 #  provisioningProfile: mas-dev.provisionprofile
 win:
-  icon: buildResources/app.png
+  icon: buildResources/app.ico
   target: [ zip, nsis ]
 #appx:
 #  identityName: ScratchFoundation.ScratchDesktop
