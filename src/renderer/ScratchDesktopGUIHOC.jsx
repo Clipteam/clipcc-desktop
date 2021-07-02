@@ -4,7 +4,7 @@ import omit from 'lodash.omit';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
-//import GUIComponent from 'clipcc-gui/src/components/gui/gui.jsx';
+import {loadExtensionFromFile} from 'clipcc-gui';
 
 import {
     LoadingStates,
@@ -71,6 +71,11 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                         this.props.onRequestNewProject();
                     }
                 );
+            });
+            ipcRenderer.invoke('get-local-extension-files').then(extensionFiles => {
+                for (const file of extensionFiles) {
+                    this.props.loadExtensionFromFile(file, 'ccx');
+                }
             });
         }
         componentDidMount () {
@@ -167,7 +172,8 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
             return dispatch(onLoadedProject(loadingState, canSaveToServer, loadSuccess));
         },
         onRequestNewProject: () => dispatch(requestNewProject(false)),
-        onTelemetrySettingsClicked: () => dispatch(openTelemetryModal())
+        onTelemetrySettingsClicked: () => dispatch(openTelemetryModal()),
+        loadExtensionFromFile: (file, type) => loadExtensionFromFile(dispatch, file, type)
     });
 
     return connect(mapStateToProps, mapDispatchToProps)(ScratchDesktopGUIComponent);
