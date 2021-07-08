@@ -107,7 +107,6 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                         title: 'About',
                         onClick: () => this.handleClickAbout()
                     },
-                    /*
                     {
                         title: 'Privacy Policy',
                         onClick: () => showPrivacyPolicy()
@@ -116,10 +115,9 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                         title: 'Data Settings',
                         onClick: () => this.props.onTelemetrySettingsClicked()
                     }
-                    */
                 ]}
                 onProjectTelemetryEvent={this.handleProjectTelemetryEvent}
-                //onShowPrivacyPolicy={showPrivacyPolicy}
+                onShowPrivacyPolicy={showPrivacyPolicy}
                 onStorageInit={this.handleStorageInit}
                 onUpdateProjectTitle={this.handleUpdateProjectTitle}
 
