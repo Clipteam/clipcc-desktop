@@ -6,7 +6,7 @@
     "name": "Clip Team",
     "email": "cuizhihui030925@outlook.com"
   },
-  "version": "3.0.0-beta3",
+  "version": "3.0.0-beta4",
   "license": "AGPL-3.0",
   "scripts": {
     "clean": "rimraf ./dist ./static/assets",
@@ -35,6 +35,20 @@
     "postcss-loader": "3.0.0",
     "postcss-simple-vars": "5.0.1",
     "source-map-support": "^0.5.19"
+  },
+  "build":{
+    "fileAssociations": [
+    {
+      "ext": "sb",
+      "name": "Scratch 1.x 文件"
+    },{
+      "ext": "sb2",
+      "name": "Scratch 2.0 文件"
+    },{
+      "ext": "sb3",
+      "name": "Scratch 3.0 文件"
+    }
+  ]
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",

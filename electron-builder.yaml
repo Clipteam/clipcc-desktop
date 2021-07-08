@@ -5,7 +5,7 @@ appId: com.codingclip.clipcc3
 productName: ClipCC 3
 artifactName: clipcc-${version}-${os}-${arch}.${ext}
 copyright: Copyright © 2019-2021 Clip Team.
-compression: normal
+compression: maximum
 extraResources:
   - from: buildResources/icon
     to: icon
