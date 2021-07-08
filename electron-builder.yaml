@@ -2,7 +2,7 @@ directories:
   buildResources: buildResources
   output: dist
 appId: com.codingclip.clipcc3
-productName: ClipCC 3
+productName: ClipCC
 artifactName: clipcc-${version}-${os}-${arch}.${ext}
 copyright: Copyright © 2019-2021 Clip Team.
 compression: maximum
