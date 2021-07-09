@@ -36,20 +36,6 @@
     "postcss-simple-vars": "5.0.1",
     "source-map-support": "^0.5.19"
   },
-  "build":{
-    "fileAssociations": [
-    {
-      "ext": "sb",
-      "name": "Scratch 1.x 文件"
-    },{
-      "ext": "sb2",
-      "name": "Scratch 2.0 文件"
-    },{
-      "ext": "sb3",
-      "name": "Scratch 3.0 文件"
-    }
-  ]
-  },
   "devDependencies": {
     "@babel/core": "^7.9.6",
     "@babel/plugin-proposal-object-rest-spread": "^7.9.6",
