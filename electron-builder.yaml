@@ -10,27 +10,27 @@ extraResources:
   - from: buildResources/icon
     to: icon
 publish: # empty provider list = don't publish
-fileAssociations:
-  - ext: sb2
-    description: Scratch 2.0 Project.
-    mimeType: application/x-zip-compressed
-    icon: buildResources/icon/cc3.ico
-    role: Editor
-  - ext: sb3
-    description: Scratch 3.0 Project.
-    mimeType: application/x-zip-compressed
-    icon: buildResources/icon/cc3.ico
-    role: Editor
-  - ext: ccproj
-    description: ClipCC 3.0 Project.
-    mimeType: application/x-zip-compressed
-    icon: buildResources/icon/cc3.ico
-    role: Editor
-  - ext: ccx
-    description: ClipCC 3 Extension.
-    mimeType: application/x-zip-compressed
-    icon: buildResources/icon/cc3.ico
-    role: Editor
+#fileAssociations:
+#  - ext: sb2
+#    description: Scratch 2.0 Project.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
+#  - ext: sb3
+#    description: Scratch 3.0 Project.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
+#  - ext: ccproj
+#    description: ClipCC 3.0 Project.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
+#  - ext: ccx
+#    description: ClipCC 3 Extension.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
 mac:
  category: public.app-category.education
  entitlements: buildResources/entitlements.mac.plist
