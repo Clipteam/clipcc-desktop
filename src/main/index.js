@@ -237,7 +237,7 @@ const getIsProjectSave = downloadItem => {
     return false;
 };
 
-var userChosenPath;
+let userChosenPath;
 
 const createMainWindow = () => {
     const window = createWindow({
