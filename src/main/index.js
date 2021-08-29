@@ -237,6 +237,8 @@ const getIsProjectSave = downloadItem => {
     return false;
 };
 
+var userChosenPath;
+
 const createMainWindow = () => {
     const window = createWindow({
         width: defaultSize.width,
@@ -257,7 +259,55 @@ const createMainWindow = () => {
             const extNameNoDot = extName.replace(/^\./, '');
             options.filters = [getFilterForExtension(extNameNoDot)];
         }
-        const userChosenPath = dialog.showSaveDialogSync(window, options);
+        
+		if (userChosenPath) {
+			console.log("已有路径");
+			const userBaseName = path.basename(userChosenPath);
+            const tempPath = path.join(app.getPath('temp'), userBaseName);
+
+            // WARNING: `setSavePath` on this item is only valid during the `will-download` event. Calling the async
+            // version of `showSaveDialog` means the event will finish before we get here, so `setSavePath` will be
+            // ignored. For that reason we need to call `showSaveDialogSync` above.
+            downloadItem.setSavePath(tempPath);
+
+            downloadItem.on('done', async (doneEvent, doneState) => {
+                try {
+                    if (doneState !== 'completed') {
+                        // The download was canceled or interrupted. Cancel the telemetry event and delete the file.
+                        throw new Error(`save ${doneState}`); // "save cancelled" or "save interrupted"
+                    }
+                    await fs.move(tempPath, userChosenPath, {overwrite: true});
+                    if (isProjectSave) {
+                        const newProjectTitle = path.basename(userChosenPath, extName);
+                        webContents.send('setTitleFromSave', {title: newProjectTitle});
+
+                        // "setTitleFromSave" will set the project title but GUI has already reported the telemetry
+                        // event using the old title. This call lets the telemetry client know that the save was
+                        // actually completed and the event should be committed to the event queue with this new title.
+                        telemetry.projectSaveCompleted(newProjectTitle);
+                    }
+                } catch (e) {
+                    if (isProjectSave) {
+                        telemetry.projectSaveCanceled();
+                    }
+                    // don't clean up until after the message box to allow troubleshooting / recovery
+                    await dialog.showMessageBox(window, {
+                        type: 'error',
+                        message: `Save failed:\n${userChosenPath}`,
+                        detail: e.message
+                    });
+                    fs.exists(tempPath).then(exists => {
+                        if (exists) {
+                            fs.unlink(tempPath);
+                        }
+                    });
+                }
+            });
+		} else {
+			console.log("无路径");
+			userChosenPath = dialog.showSaveDialogSync(window, options);
+			console.log(userChosenPath);
+		}
         // this will be falsy if the user canceled the save
         if (userChosenPath) {
             const userBaseName = path.basename(userChosenPath);
