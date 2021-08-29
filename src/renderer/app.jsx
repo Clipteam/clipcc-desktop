@@ -1,8 +1,8 @@
 import React from 'react';
 import {compose} from 'redux';
-import GUI from 'clipcc-gui/containers/gui.jsx';
+import GUI from 'clipcc-gui';
 
-import {AppStateHOC} from 'clipcc-gui/lib/app-state-hoc.jsx';
+import {AppStateHOC} from 'clipcc-gui';
 
 import ScratchDesktopAppStateHOC from './ScratchDesktopAppStateHOC.jsx';
 import ScratchDesktopGUIHOC from './ScratchDesktopGUIHOC.jsx';

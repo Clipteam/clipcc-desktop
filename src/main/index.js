@@ -261,8 +261,7 @@ const createMainWindow = () => {
         }
         
 		if (userChosenPath) {
-			console.log("已有路径");
-			const userBaseName = path.basename(userChosenPath);
+            const userBaseName = path.basename(userChosenPath);
             const tempPath = path.join(app.getPath('temp'), userBaseName);
 
             // WARNING: `setSavePath` on this item is only valid during the `will-download` event. Calling the async
@@ -304,7 +303,6 @@ const createMainWindow = () => {
                 }
             });
 		} else {
-			console.log("无路径");
 			userChosenPath = dialog.showSaveDialogSync(window, options);
 			console.log(userChosenPath);
 		}
