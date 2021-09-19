@@ -1,12 +1,12 @@
 {
   "name": "clipcc-desktop",
-  "productName": "ClipCC 3",
-  "description": "ClipCC 3 as a self-contained desktop application",
+  "productName": "ClipCC",
+  "description": "ClipCC as a self-contained desktop application",
   "author": {
     "name": "Clip Team",
     "email": "cuizhihui030925@outlook.com"
   },
-  "version": "3.0.2-beta1",
+  "version": "3.0.2",
   "license": "AGPL-3.0",
   "scripts": {
     "clean": "rimraf ./dist ./static/assets",
