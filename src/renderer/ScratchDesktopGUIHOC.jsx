@@ -93,6 +93,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
         }
         handleUpdateProjectTitle (newTitle) {
             this.setState({projectTitle: newTitle});
+            document.title = newTitle;
         }
         render () {
             const childProps = omit(this.props, Object.keys(ScratchDesktopGUIComponent.propTypes));
@@ -167,7 +168,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
             return dispatch(onLoadedProject(loadingState, canSaveToServer, loadSuccess));
         },
         onRequestNewProject: () => dispatch(requestNewProject(false)),
-        onTelemetrySettingsClicked: () => dispatch(openTelemetryModal())
+        onTelemetrySettingsClicked: () => dispatch(openTelemetryModal()),
     });
 
     return connect(mapStateToProps, mapDispatchToProps)(ScratchDesktopGUIComponent);

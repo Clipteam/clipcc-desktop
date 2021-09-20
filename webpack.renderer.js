@@ -9,6 +9,7 @@ const getModulePath = moduleName => path.dirname(require.resolve(`${moduleName}/
 module.exports = defaultConfig =>
     makeConfig(
         defaultConfig,
+        devtool: '',
         {
             name: 'renderer',
             useReact: true,

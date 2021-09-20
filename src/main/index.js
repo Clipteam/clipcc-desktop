@@ -245,6 +245,12 @@ const createMainWindow = () => {
     });
     const webContents = window.webContents;
 
+    window.on('page-title-updated', (event, title, explicitSet) => {
+        event.preventDefault();
+        if (title) window.setTitle(`${title} - ${window.title}`);
+        else window.setTitle(window.title);
+  });
+  
     webContents.session.on('will-download', (willDownloadEvent, downloadItem) => {
         const isProjectSave = getIsProjectSave(downloadItem);
         const itemPath = downloadItem.getFilename();
