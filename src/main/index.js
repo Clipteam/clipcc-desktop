@@ -171,7 +171,8 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
         useContentSize: true,
         show: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false
         },
         ...browserWindowOptions
     });
