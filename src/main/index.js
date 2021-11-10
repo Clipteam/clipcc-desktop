@@ -269,7 +269,7 @@ const createMainWindow = () => {
 				cancelId: 0,
 				defaultId: 0
 			});
-			if (choice === 1) {
+			if (userChoise === 1) {
 				userChosenPath = downloadPath;
 			} else {
 				downloadPath = dialog.showSaveDialogSync(window, options);
