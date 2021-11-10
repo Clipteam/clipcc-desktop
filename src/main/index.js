@@ -258,7 +258,7 @@ const createMainWindow = () => {
             options.filters = [getFilterForExtension(extNameNoDot)];
         }
 
-		const userChosenPath;
+		let userChosenPath;
 
 		if (alreadyHavePath) {
 			const userChoise = dialog.showMessageBoxSync(window, {
