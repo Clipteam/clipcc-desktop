@@ -230,6 +230,19 @@ const createPrivacyWindow = () => {
     return window;
 };
 
+const createLoadingWindow = () => {
+    const window = createWindow({
+        url: 'static/loading.html',
+        width: 300,
+        height: 300,
+        frame: false,
+        resizable: false,
+        titleBarStyle: 'hidden-inset'
+    });
+    return window;
+};
+
+
 const getIsProjectSave = downloadItem => {
     switch (downloadItem.getMimeType()) {
     case 'application/x.scratch.sb3':
@@ -326,6 +339,10 @@ const createMainWindow = () => {
     });
 
     window.once('ready-to-show', () => {
+        _windows.loading.show();
+    });
+    webContents.once('did-finish-load', () => {
+        _windows.loading.hide();
         window.show();
     });
 
@@ -385,6 +402,7 @@ app.on('ready', () => {
     _windows.main = createMainWindow();
     _windows.main.on('closed', () => {
         delete _windows.main;
+        app.quit();
     });
     _windows.about = createAboutWindow();
     _windows.about.on('close', event => {
@@ -396,6 +414,11 @@ app.on('ready', () => {
         event.preventDefault();
         _windows.privacy.hide();
     });
+    _windows.loading = createLoadingWindow();
+    _windows.loading.on('closed', () => {
+        delete _windows.loading;
+        app.quit();
+    });
 });
 
 ipcMain.on('open-about-window', () => {
@@ -405,6 +428,7 @@ ipcMain.on('open-about-window', () => {
 ipcMain.on('open-privacy-policy-window', () => {
     _windows.privacy.show();
 });
+
 
 // start loading initial project data before the GUI needs it so the load seems faster
 const initialProjectDataPromise = (async () => {
