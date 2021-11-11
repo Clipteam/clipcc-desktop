@@ -53,7 +53,6 @@ const displayPermissionDeniedWarning = (browserWindow, permissionType) => {
         message = 'ClipCC 无法访问您的摄像头，这可能会导致部分功能无法正常工作';
         break;
     case 'microphone':
-        title = 'Microphone Permission Denied';
         title = '麦克风访问被拒绝';
         message = 'ClipCC 无法访问您的麦克风，这可能会导致部分功能无法正常工作';
         break;
