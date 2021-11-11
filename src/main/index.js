@@ -49,25 +49,25 @@ const displayPermissionDeniedWarning = (browserWindow, permissionType) => {
     let message;
     switch (permissionType) {
     case 'camera':
-        title = 'æ‘„åƒå¤´è®¿é—®è¢«æ‹’ç»';
-        message = 'ClipCC æ— æ³•è®¿é—®æ‚¨çš„æ‘„åƒå¤´ï¼Œè¿™å¯èƒ½ä¼šå¯¼è‡´éƒ¨åˆ†åŠŸèƒ½æ— æ³•æ­£å¸¸å·¥ä½œ';
+        title = 'ÉãÏñÍ··ÃÎÊ±»¾Ü¾ø';
+        message = 'Clipcc ÎŞ·¨·ÃÎÊÄúµÄÉãÏñÍ·£¬Õâ¿ÉÄÜ»áµ¼ÖÂ²¿·Ö¹¦ÄÜÎŞ·¨Õı³£¹¤×÷';
         break;
     case 'microphone':
-        title = 'éº¦å…‹é£è®¿é—®è¢«æ‹’ç»';
-        message = 'ClipCC æ— æ³•è®¿é—®æ‚¨çš„éº¦å…‹é£ï¼Œè¿™å¯èƒ½ä¼šå¯¼è‡´éƒ¨åˆ†åŠŸèƒ½æ— æ³•æ­£å¸¸å·¥ä½œ';
+        title = 'Microphone Permission Denied';
+        message = 'Clipcc ÎŞ·¨·ÃÎÊÄúµÄÂó¿Ë·ç£¬Õâ¿ÉÄÜ»áµ¼ÖÂ²¿·Ö¹¦ÄÜÎŞ·¨Õı³£¹¤×÷';
         break;
     default: // shouldn't ever happen...
-        title = 'æƒé™é”™è¯¯';
-        message = 'ClipCC æ— æ³•ä½¿ç”¨æŸäº›æƒé™ï¼Œè¿™å¯èƒ½ä¼šå¯¼è‡´éƒ¨åˆ†åŠŸèƒ½æ— æ³•æ­£å¸¸å·¥ä½œ';
+        title = 'È¨ÏŞ´íÎó';
+        message = 'Clipcc ÎŞ·¨Ê¹ÓÃÄ³Ğ©È¨ÏŞ£¬Õâ¿ÉÄÜ»áµ¼ÖÂ²¿·Ö¹¦ÄÜÎŞ·¨Õı³£¹¤×÷';
     }
 
     let instructions;
     switch (process.platform) {
     case 'darwin':
-        instructions = 'è¦ä¿®å¤è¿™ä¸ªé—®é¢˜ï¼Œè¯·åœ¨ç³»ç»Ÿè®¾ç½®ä¸­ç‚¹å‡» â€œå®‰å…¨â€ é€‰é¡¹';
+        instructions = 'ÒªĞŞ¸´Õâ¸öÎÊÌâ£¬ÇëÔÚÏµÍ³ÉèÖÃÖĞµã»÷ ¡°°²È«¡± Ñ¡Ïî';
         break;
     default:
-        instructions = 'è¯·æ£€æŸ¥ç³»ç»Ÿè®¾ç½®ä¹‹åé‡å¯';
+        instructions = 'Çë¼ì²éÏµÍ³ÉèÖÃÖ®ºóÖØÆô';
         break;
     }
     message = `${message}\n\n${instructions}`;
@@ -275,9 +275,25 @@ const createMainWindow = () => {
 		let userChosenPath;
 
 		if (alreadyHavePath) {
-			userChosenPath = downloadPath;
+			const userChoise = dialog.showMessageBoxSync(window, {
+				type: 'question',
+				message: '±£´æÎÄ¼ş',
+				detail: `¼ì²âµ½µ±Ç°ÎÄ¼şÒÑ¾­±»±£´æ¹ı£¬ÊÇ·ñÒª±£´æµ½Ô­Â·¾¶£º\n${downloadPath}.`,
+				buttons: ['²»£¬ÇëÈÃÎÒ×ÔĞĞÑ¡ÔñÂ·¾¶', 'ÊÇµÄ£¬±£´æµ½Ô­Â·¾¶'],
+				cancelId: 0,
+				defaultId: 0
+			});
+			if (userChoise === 1) {
+				userChosenPath = downloadPath;
+			} else {
+				downloadPath = dialog.showSaveDialogSync(window, options);
+
+				alreadyHavePath = true;
+
+				userChosenPath = downloadPath;
+			}
 		} else {
-			// è·å–è·¯å¾„
+			// »ñÈ¡Â·¾¶
 			downloadPath = dialog.showSaveDialogSync(window, options);
 
 			alreadyHavePath = true;
@@ -318,7 +334,7 @@ const createMainWindow = () => {
                     // don't clean up until after the message box to allow troubleshooting / recovery
                     await dialog.showMessageBox(window, {
                         type: 'error',
-                        message: `æ— æ³•ä¿å­˜ä½äº: ${userChosenPath} çš„ä½œå“æ–‡ä»¶`,
+                        message: `ÎŞ·¨±£´æÎ»ÓÚ: ${userChosenPath} µÄ×÷Æ·ÎÄ¼ş`,
                         detail: e.message
                     });
                     fs.exists(tempPath).then(exists => {
@@ -331,9 +347,9 @@ const createMainWindow = () => {
         } else {
 			dialog.showMessageBoxSync(window, {
 				type: 'info',
-				message: 'ä¿å­˜æ–‡ä»¶',
-				detail: 'ç”¨æˆ·å–æ¶ˆäº†ä¿å­˜',
-				buttons: ['ç¡®å®š']
+				message: '±£´æÎÄ¼ş',
+				detail: 'ÓÃ»§È¡ÏûÁË±£´æ',
+				buttons: ['È·¶¨']
 			});
             downloadItem.cancel();
             if (isProjectSave) {
@@ -345,9 +361,9 @@ const createMainWindow = () => {
     webContents.on('will-prevent-unload', ev => {
         const choice = dialog.showMessageBoxSync(window, {
             type: 'question',
-            message: 'ç¡®å®šè¦é€€å‡º ClipCC?',
-            detail: 'ç³»ç»Ÿå¯èƒ½ä¸ä¼šä¿å­˜ä½ çš„æ›´æ”¹.',
-            buttons: ['å–æ¶ˆ', 'ç¡®å®š'],
+            message: 'È·¶¨ÒªÍË³ö ClipCC?',
+            detail: 'ÏµÍ³¿ÉÄÜ²»»á±£´æÄãµÄ¸ü¸Ä.',
+            buttons: ['È¡Ïû', 'È·¶¨'],
             cancelId: 0, // closing the dialog means "stay"
             defaultId: 0 // pressing enter or space without explicitly selecting something means "stay"
         });
@@ -465,8 +481,8 @@ const initialProjectDataPromise = (async () => {
     } catch (e) {
         dialog.showMessageBox(_windows.main, {
             type: 'error',
-            title: 'ä¸èƒ½åŠ è½½ä½œå“æ–‡ä»¶',
-            message: `ä¸èƒ½åŠ è½½ä½äº ï¼š ${projectPath} çš„ä½œå“æ–‡ä»¶.`,
+            title: '²»ÄÜ¼ÓÔØ×÷Æ·ÎÄ¼ş',
+            message: `²»ÄÜ¼ÓÔØÎ»ÓÚ £º ${projectPath} µÄ×÷Æ·ÎÄ¼ş.`,
             detail: e.message
         });
     }
