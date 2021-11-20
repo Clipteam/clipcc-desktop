@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 //import GUIComponent from 'clipcc-gui/src/components/gui/gui.jsx';
+import './filesystem-api';
 
 import {
     LoadingStates,

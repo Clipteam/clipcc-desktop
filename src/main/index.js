@@ -429,6 +429,37 @@ ipcMain.on('open-privacy-policy-window', () => {
     _windows.privacy.show();
 });
 
+ipcMain.handle('show-save-dialog', async (event, options) => {
+    const result = await dialog.showSaveDialog(BrowserWindow.fromWebContents(event.sender), {
+        filters: options.filters,
+        defaultPath: options.suggestedName
+    });
+    return result;
+});
+
+ipcMain.handle('show-open-dialog', async (event, options) => {
+    const result = await dialog.showOpenDialog(BrowserWindow.fromWebContents(event.sender), {
+        filters: options.filters,
+        properties: ['openFile']
+    });
+    return result;
+});
+
+// eslint-disable-next-line no-return-await
+ipcMain.handle('read-file', async (event, file) => await fs.readFile(file));
+
+ipcMain.handle('write-file', async (event, file, content) => {
+    try {
+        await fs.writeFile(file, content);
+    } catch (e) {
+        await dialog.showMessageBox(_windows.main, {
+            type: 'error',
+            message: `Cannot write file:\n${file}`,
+            detail: e.message
+        });
+    }
+});
+
 
 // start loading initial project data before the GUI needs it so the load seems faster
 const initialProjectDataPromise = (async () => {
