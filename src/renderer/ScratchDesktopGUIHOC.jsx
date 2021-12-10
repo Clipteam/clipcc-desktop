@@ -102,6 +102,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                 canEditTitle
                 canModifyCloudData={false}
                 canSave={false}
+                isStandalone
                 isScratchDesktop
                 onClickAbout={[
                     {

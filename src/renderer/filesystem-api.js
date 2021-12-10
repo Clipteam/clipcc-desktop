@@ -43,10 +43,19 @@ class WrappedFileHandle {
         return new File([data], this.name);
     }
 
-    // eslint-disable-next-line require-await
+    /* eslint-disable require-await */
     async createWritable () {
         return new WrappedFileWritable(this.path);
     }
+
+    async queryPermission () {
+        return 'granted';
+    }
+
+    async requestPermission () {
+        return 'granted';
+    }
+    /* eslint-enable require-await */
 }
 
 class AbortError extends Error {
