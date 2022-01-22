@@ -2,6 +2,15 @@
 
 Scratch 3.0 as a standalone desktop application
 
+## Installation
+
+See [releases](https://github.com/Clipteam/clipcc-desktop/releases).
+
+For Arch Linux users, you can install the AUR package [clipcc-bin](https://aur.archlinux.org/packages/clipcc-bin):
+```bash
+yay -S clipcc-bin
+```
+
 ## Developer Instructions
 
 ### Releasing a new version
