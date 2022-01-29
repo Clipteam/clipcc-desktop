@@ -2,14 +2,35 @@ directories:
   buildResources: buildResources
   output: dist
 appId: com.codingclip.clipcc3
-productName: ClipCC 3
+productName: ClipCC
 artifactName: clipcc-${version}-${os}-${arch}.${ext}
 copyright: Copyright © 2019-2021 Clip Team.
-compression: normal
+compression: maximum
 extraResources:
   - from: buildResources/icon
     to: icon
 publish: # empty provider list = don't publish
+#fileAssociations:
+#  - ext: sb2
+#    description: Scratch 2.0 Project.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
+#  - ext: sb3
+#    description: Scratch 3.0 Project.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
+#  - ext: ccproj
+#    description: ClipCC 3.0 Project.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
+#  - ext: ccx
+#    description: ClipCC 3 Extension.
+#    mimeType: application/x-zip-compressed
+#    icon: buildResources/icon/cc3.ico
+#    role: Editor
 mac:
  category: public.app-category.education
  entitlements: buildResources/entitlements.mac.plist

@@ -172,7 +172,8 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
         useContentSize: true,
         show: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: false
         },
         ...browserWindowOptions
     });
@@ -229,6 +230,19 @@ const createPrivacyWindow = () => {
     });
     return window;
 };
+
+const createLoadingWindow = () => {
+    const window = createWindow({
+        url: 'static/loading.html',
+        width: 300,
+        height: 300,
+        frame: false,
+        resizable: false,
+        titleBarStyle: 'hidden-inset'
+    });
+    return window;
+};
+
 
 const getIsProjectSave = downloadItem => {
     switch (downloadItem.getMimeType()) {
@@ -326,6 +340,10 @@ const createMainWindow = () => {
     });
 
     window.once('ready-to-show', () => {
+        _windows.loading.show();
+    });
+    webContents.once('did-finish-load', () => {
+        _windows.loading.hide();
         window.show();
     });
 
@@ -385,6 +403,7 @@ app.on('ready', () => {
     _windows.main = createMainWindow();
     _windows.main.on('closed', () => {
         delete _windows.main;
+        app.quit();
     });
     _windows.about = createAboutWindow();
     _windows.about.on('close', event => {
@@ -396,6 +415,11 @@ app.on('ready', () => {
         event.preventDefault();
         _windows.privacy.hide();
     });
+    _windows.loading = createLoadingWindow();
+    _windows.loading.on('closed', () => {
+        delete _windows.loading;
+        app.quit();
+    });
 });
 
 ipcMain.on('open-about-window', () => {
@@ -405,6 +429,38 @@ ipcMain.on('open-about-window', () => {
 ipcMain.on('open-privacy-policy-window', () => {
     _windows.privacy.show();
 });
+
+ipcMain.handle('show-save-dialog', async (event, options) => {
+    const result = await dialog.showSaveDialog(BrowserWindow.fromWebContents(event.sender), {
+        filters: options.filters,
+        defaultPath: options.suggestedName
+    });
+    return result;
+});
+
+ipcMain.handle('show-open-dialog', async (event, options) => {
+    const result = await dialog.showOpenDialog(BrowserWindow.fromWebContents(event.sender), {
+        filters: options.filters,
+        properties: ['openFile']
+    });
+    return result;
+});
+
+// eslint-disable-next-line no-return-await
+ipcMain.handle('read-file', async (event, file) => await fs.readFile(file));
+
+ipcMain.handle('write-file', async (event, file, content) => {
+    try {
+        await fs.writeFile(file, content);
+    } catch (e) {
+        await dialog.showMessageBox(_windows.main, {
+            type: 'error',
+            message: `Cannot write file:\n${file}`,
+            detail: e.message
+        });
+    }
+});
+
 
 // start loading initial project data before the GUI needs it so the load seems faster
 const initialProjectDataPromise = (async () => {

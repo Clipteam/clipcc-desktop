@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
 import {loadExtensionFromFile} from 'clipcc-gui';
+import './filesystem-api';
 
 import {
     LoadingStates,
@@ -106,6 +107,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                 canEditTitle
                 canModifyCloudData={false}
                 canSave={false}
+                isStandalone
                 isScratchDesktop
                 onClickAbout={[
                     {

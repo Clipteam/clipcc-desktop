@@ -26,6 +26,10 @@ module.exports = defaultConfig =>
                     to: 'static'
                 }]),
                 new CopyWebpackPlugin([{
+                    from: path.join('src', 'renderer', 'loading.html'),
+                    to: 'static'
+                }]),
+                new CopyWebpackPlugin([{
                     from: path.join(getModulePath('clipcc-block'), 'media'),
                     to: 'static/blocks-media'
                 }]),
