@@ -1,7 +1,7 @@
 import React from 'react';
 import {productName, version} from '../../package.json';
 
-import logo from '../icon/ClipCC.svg';
+import logo from '../icon/app.svg';
 import styles from './about.css';
 
 const AboutElement = () => (

@@ -6,7 +6,7 @@
     "name": "Clip Team",
     "email": "cuizhihui030925@outlook.com"
   },
-  "version": "3.1.0-beta3",
+  "version": "3.1.0-beta4",
   "license": "AGPL-3.0",
   "scripts": {
     "clean": "rimraf ./dist ./static/assets",
@@ -30,7 +30,9 @@
   "dependencies": {
     "autoprefixer": "9.0.1",
     "css-loader": "1.0.0",
+    "jszip": "^3.6.0",
     "lodash.omit": "^4.5.0",
+    "mime-types": "^2.1.31",
     "postcss-import": "12.0.0",
     "postcss-loader": "3.0.0",
     "postcss-simple-vars": "5.0.1",

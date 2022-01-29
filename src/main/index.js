@@ -3,6 +3,7 @@ import fs from 'fs-extra';
 import path from 'path';
 import {URL} from 'url';
 import {promisify} from 'util';
+import JSZip from 'jszip';
 
 import argv from './argv';
 import {getFilterForExtension} from './FileFilters';
@@ -486,3 +487,18 @@ const initialProjectDataPromise = (async () => {
 })(); // IIFE
 
 ipcMain.handle('get-initial-project-data', () => initialProjectDataPromise);
+
+const loadLocalExtensionFile = (async () => {
+    const extensions = fs.readdirSync('./extensions');
+    const extensionData = [];
+    for (let file of extensions) {
+        if (path.extname(file) === '.ccx') {
+            console.log('[extension] Loading ' + file);
+            const data = fs.readFileSync(path.join('./extensions', file), {encoding: 'binary'});
+            extensionData.push(data);
+        }
+    }
+    return extensionData;
+})();
+
+ipcMain.handle('get-local-extension-files', () => loadLocalExtensionFile);
