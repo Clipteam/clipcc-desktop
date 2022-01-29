@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "autoprefixer": "9.0.1",
+    "clipcc-extension": "^0.1.7",
     "css-loader": "1.0.0",
     "jszip": "^3.6.0",
     "lodash.omit": "^4.5.0",

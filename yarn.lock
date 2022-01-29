@@ -2897,6 +2897,11 @@ clipcc-block@3.1.3:
     google-closure-compiler-osx "^20200112.0.0"
     google-closure-compiler-windows "^20200112.0.0"
 
+clipcc-extension@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/clipcc-extension/-/clipcc-extension-0.1.7.tgz#e7b022819f191f932e450ad54d1a50457b0cbb69"
+  integrity sha512-CLQuOiWX02p7knh98OOGY61nbynO/8SGsulICXwk4cSvPJgeaB3krdjmWMNTb4+CAmB6+gVY8nd4x33DJm6IJQ==
+
 "clipcc-gui@git+https://github.com/Clipteam/clipcc-gui.git":
   version "3.1.5"
   resolved "git+https://github.com/Clipteam/clipcc-gui.git#e53d93c6a9376ae80ef0b4486b6582e90acaa46d"
