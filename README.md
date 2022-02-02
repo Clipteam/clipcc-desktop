@@ -1,15 +1,29 @@
-# scratch-desktop
+# clipcc-desktop
 
-Scratch 3.0 as a standalone desktop application
+ClipCC as a standalone desktop application
 
 ## Installation
 
 See [releases](https://github.com/Clipteam/clipcc-desktop/releases).
 
-For Arch Linux users, you can install the AUR package [clipcc-bin](https://aur.archlinux.org/packages/clipcc-bin):
-```bash
-yay -S clipcc-bin
+### Windows users
+
+On Windows, you can use winget to install ClipCC.
+
+```powershell
+winget install ClipTeam.ClipCC
 ```
+### Arch Linux users
+
+For Arch Linux users, you can install the AUR package [clipcc](https://aur.archlinux.org/packages/clipcc) or [clipcc-beta-bin](https://aur.archlinux.org/packages/clipcc-beta-bin):
+```bash
+yay -S clipcc
+```
+Or
+```bash
+yay -S clipcc-beta-bin
+```
+_Note that these two packages conflict with each other._
 
 ## Developer Instructions
 
