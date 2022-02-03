@@ -1,6 +1,7 @@
 {
     "main": {
-        "webpackConfig": "webpack.main.js"
+        "webpackConfig": "webpack.main.js",
+        "extraEntries": ["@/preload.js"]
     },
     "renderer": {
         "template": "src/renderer/index.html",

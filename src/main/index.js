@@ -40,6 +40,7 @@ const devToolKey = ((process.platform === 'darwin') ?
 
 // global window references prevent them from being garbage-collected
 const _windows = {};
+let _extension = {};
 
 // enable connecting to Scratch Link even if we DNS / Internet access is not available
 // this must happen BEFORE the app ready event!
@@ -173,7 +174,8 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
         show: false,
         webPreferences: {
             nodeIntegration: true,
-            contextIsolation: false
+            contextIsolation: false,
+            preload: path.resolve(path.join(__dirname, 'preload.js'))
         },
         ...browserWindowOptions
     });
@@ -239,6 +241,16 @@ const createLoadingWindow = () => {
         frame: false,
         resizable: false,
         titleBarStyle: 'hidden-inset'
+    });
+    return window;
+};
+const createExtensionStoneWindow = () => {
+    const window = createWindow({
+        url: 'https://clipcc-extension-store.vercel.app/?desktop=1',
+        title: 'ClipCC Extension Store',
+        parent: _windows.main,
+        width: _windows.main.width * 1.8,
+        height: _windows.main.height * 0.8
     });
     return window;
 };
@@ -420,6 +432,12 @@ app.on('ready', () => {
         delete _windows.loading;
         app.quit();
     });
+    _windows.extensionStore = createExtensionStoneWindow();
+    _windows.extensionStore.on('close', event => {
+        event.preventDefault();
+        _windows.extensionStore.hide();
+    });
+
 });
 
 ipcMain.on('open-about-window', () => {
@@ -491,9 +509,9 @@ ipcMain.handle('get-initial-project-data', () => initialProjectDataPromise);
 const loadLocalExtensionFile = (async () => {
     const extensions = fs.readdirSync('./extensions');
     const extensionData = [];
-    for (let file of extensions) {
+    for (const file of extensions) {
         if (path.extname(file) === '.ccx') {
-            console.log('[extension] Loading ' + file);
+            console.log(`[extension] Loading ${file}`);
             const data = fs.readFileSync(path.join('./extensions', file), {encoding: 'binary'});
             extensionData.push(data);
         }
@@ -502,3 +520,14 @@ const loadLocalExtensionFile = (async () => {
 })();
 
 ipcMain.handle('get-local-extension-files', () => loadLocalExtensionFile);
+ipcMain.handle('load-extension', (event, extension) => {
+    _windows.main.webContents.send('loadExtensionFromFile', {extension});
+});
+ipcMain.on('open-extension-store', () => _windows.extensionStore.show());
+ipcMain.handle('get-extension', async () => {
+    await _windows.main.webContents.send('getExtension');
+    return _extension;
+});
+ipcMain.handle('set-extension', (event, extension) => {
+    _extension = extension;
+});

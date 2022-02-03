@@ -39,6 +39,8 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
             bindAll(this, [
                 'handleProjectTelemetryEvent',
                 'handleSetTitleFromSave',
+                'handleGetExtension',
+                'handleLoadExtension',
                 'handleStorageInit',
                 'handleUpdateProjectTitle'
             ]);
@@ -82,9 +84,14 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
         }
         componentDidMount () {
             Electron.ipcRenderer.on('setTitleFromSave', this.handleSetTitleFromSave);
+            Electron.ipcRenderer.on('loadExtensionFromFile', this.handleLoadExtension);
+            Electron.ipcRenderer.on('getExtension', this.handleGetExtension);
         }
+
         componentWillUnmount () {
             Electron.ipcRenderer.removeListener('setTitleFromSave', this.handleSetTitleFromSave);
+            Electron.ipcRenderer.removeListener('loadExtensionFromFile', this.handleLoadExtension);
+            Electron.ipcRenderer.removeListener('getExtension', this.handleGetExtension);
         }
         handleClickAbout () {
             Electron.ipcRenderer.send('open-about-window');
@@ -94,6 +101,12 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
         }
         handleSetTitleFromSave (event, args) {
             this.handleUpdateProjectTitle(args.title);
+        }
+        handleLoadExtension (event, args) {
+            this.props.loadExtensionFromFile(args.extension, 'ccx');
+        }
+        handleGetExtension () {
+            Electron.ipcRenderer.invoke('set-extension', this.props.extension);
         }
         handleStorageInit (storageInstance) {
             storageInstance.addHelper(new ElectronStorageHelper(storageInstance));
@@ -137,7 +150,20 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
     }
 
     ScratchDesktopGUIComponent.propTypes = {
+        extension: PropTypes.shape({
+            extensionId: PropTypes.string,
+            iconURL: PropTypes.string,
+            insetIconURL: PropTypes.string,
+            author: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.arrayOf(PropTypes.string)
+            ]),
+            name: PropTypes.string,
+            description: PropTypes.string,
+            requirement: PropTypes.arrayOf(PropTypes.string)
+        }),
         loadingState: PropTypes.oneOf(LoadingStates),
+        loadExtensionFromFile: PropTypes.func,
         onFetchedInitialProjectData: PropTypes.func,
         onHasInitialProject: PropTypes.func,
         onLoadedProject: PropTypes.func,
@@ -146,14 +172,15 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
         onRequestNewProject: PropTypes.func,
         onTelemetrySettingsClicked: PropTypes.func,
         // using PropTypes.instanceOf(VM) here will cause prop type warnings due to VM mismatch
-        //vm: GUIComponent.WrappedComponent.propTypes.vm
+        // vm: GUIComponent.WrappedComponent.propTypes.vm
         vm: PropTypes.shape({})
     };
     const mapStateToProps = state => {
         const loadingState = state.scratchGui.projectState.loadingState;
         return {
             loadingState: loadingState,
-            vm: state.scratchGui.vm
+            vm: state.scratchGui.vm,
+            extension: state.scratchGui.extension.extension
         };
     };
     const mapDispatchToProps = dispatch => ({

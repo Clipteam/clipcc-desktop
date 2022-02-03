@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "autoprefixer": "9.0.1",
+    "axios": "^0.25.0",
     "clipcc-extension": "^0.1.7",
     "css-loader": "1.0.0",
     "jszip": "^3.6.0",
