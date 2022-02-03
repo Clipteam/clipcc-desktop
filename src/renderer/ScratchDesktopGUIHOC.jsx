@@ -1,4 +1,5 @@
-import {ipcRenderer, remote} from 'electron';
+import Electron from 'electron';
+import fs from 'fs';
 import bindAll from 'lodash.bindall';
 import omit from 'lodash.omit';
 import PropTypes from 'prop-types';
@@ -42,7 +43,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                 'handleUpdateProjectTitle'
             ]);
             this.props.onLoadingStarted();
-            ipcRenderer.invoke('get-initial-project-data').then(initialProjectData => {
+            Electron.ipcRenderer.invoke('get-initial-project-data').then(initialProjectData => {
                 const hasInitialProject = initialProjectData && (initialProjectData.length > 0);
                 this.props.onHasInitialProject(hasInitialProject, this.props.loadingState);
                 if (!hasInitialProject) {
@@ -57,7 +58,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                     e => {
                         this.props.onLoadingCompleted();
                         this.props.onLoadedProject(this.props.loadingState, false);
-                        remote.dialog.showMessageBox(remote.getCurrentWindow(), {
+                        Electron.remote.dialog.showMessageBox(Electron.remote.getCurrentWindow(), {
                             type: 'error',
                             title: 'Failed to load project',
                             message: 'Invalid or corrupt project file.',
@@ -73,23 +74,23 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                     }
                 );
             });
-            ipcRenderer.invoke('get-local-extension-files').then(extensionFiles => {
+            Electron.ipcRenderer.invoke('get-local-extension-files').then(extensionFiles => {
                 for (const file of extensionFiles) {
                     this.props.loadExtensionFromFile(file, 'ccx');
                 }
             });
         }
         componentDidMount () {
-            ipcRenderer.on('setTitleFromSave', this.handleSetTitleFromSave);
+            Electron.ipcRenderer.on('setTitleFromSave', this.handleSetTitleFromSave);
         }
         componentWillUnmount () {
-            ipcRenderer.removeListener('setTitleFromSave', this.handleSetTitleFromSave);
+            Electron.ipcRenderer.removeListener('setTitleFromSave', this.handleSetTitleFromSave);
         }
         handleClickAbout () {
-            ipcRenderer.send('open-about-window');
+            Electron.ipcRenderer.send('open-about-window');
         }
         handleProjectTelemetryEvent (event, metadata) {
-            ipcRenderer.send(event, metadata);
+            Electron.ipcRenderer.send(event, metadata);
         }
         handleSetTitleFromSave (event, args) {
             this.handleUpdateProjectTitle(args.title);
@@ -109,6 +110,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
                 canSave={false}
                 isStandalone
                 isScratchDesktop
+                nativeInstance={{Electron, fs}}
                 onClickAbout={[
                     {
                         title: 'About',
