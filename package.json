@@ -6,7 +6,7 @@
     "name": "Clip Team",
     "email": "cuizhihui030925@outlook.com"
   },
-  "version": "3.1.0",
+  "version": "3.1.1",
   "license": "AGPL-3.0",
   "scripts": {
     "clean": "rimraf ./dist ./static/assets",
@@ -51,7 +51,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-react-intl": "^7.5.7",
-    "clipcc-gui": "git+https://github.com/Clipteam/clipcc-gui.git#3.1.7",
+    "clipcc-gui": "git+https://github.com/Clipteam/clipcc-gui.git#3.1.8",
     "copy-webpack-plugin": "^5.1.1",
     "electron": "15.3.1",
     "electron-builder": "22.13.1",
