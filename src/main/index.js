@@ -1,9 +1,9 @@
 import {BrowserWindow, Menu, app, dialog, ipcMain, shell, systemPreferences} from 'electron';
-import remoteMain from '@electron/remote/main';
 import fs from 'fs-extra';
 import path from 'path';
 import {URL} from 'url';
 import {promisify} from 'util';
+import * as remoteMain from '@electron/remote/main';
 
 import argv from './argv';
 import {getFilterForExtension} from './FileFilters';
@@ -14,7 +14,7 @@ import {productName, version} from '../../package.json';
 
 // suppress deprecation warning; this will be the default in Electron 9
 app.allowRendererProcessReuse = true;
-remoteMain.initialize(); // Initialized for extensions
+remoteMain.initialize();
 
 telemetry.appWasOpened();
 
@@ -182,6 +182,7 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
         ...browserWindowOptions
     });
     const webContents = window.webContents;
+    remoteMain.enable(window.webContents);
 
     webContents.session.setPermissionRequestHandler(handlePermissionRequest);
 
