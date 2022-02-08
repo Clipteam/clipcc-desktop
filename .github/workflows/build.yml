@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ macos-latest, ubuntu-latest ]
+        os: [ macos-latest, ubuntu-latest, windows-latest]
         
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -22,34 +22,37 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14
+      - name: Yarn Cache
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
       
       - name: Install dependencies
         run: |
-          yarn
+          yarn --frozen-lockfile
+          yarn global add cross-env
           cd node_modules/clipcc-gui
-          yarn
+          yarn --frozen-lockfile
           cd ../..
-      
       - name: Compile
         run: |
-          export DISPLAY=':99.0'
-          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           cd node_modules/clipcc-gui
-          NODE_ENV=production yarn run build:dist
+          cross-env NODE_ENV=production yarn run build:dist
           cd ../..
-          NODE_ENV=production yarn run compile
+          cross-env NODE_ENV=production yarn run compile
           
-      - name: Build (Linux & Windows)
+      - name: Build (Linux)
         if: ${{ startsWith(matrix.os, 'ubuntu') }}
-        run: |
-          docker run --rm \
-            --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS|APPVEYOR_|CSC_|_TOKEN|_KEY|AWS_|STRIP|BUILD_') \
-            -v ${PWD}:/project \
-            -v ~/.cache/electron:/root/.cache/electron \
-            -v ~/.cache/electron-builder:/root/.cache/electron-builder \
-            electronuserland/builder:wine \
-            /bin/bash -c "yarn electron-builder --linux --x64 && yarn electron-builder --win --ia32 --x64"
+        run: yarn electron-builder --linux --x64
   
-      - name: Build (Max OS)
+      - name: Build (Windows)
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        run: yarn electron-builder --win --ia32 --x64
+      - name: Build (Mac OS)
         if: ${{ startsWith(matrix.os, 'macos') }}
         run: yarn electron-builder --mac
