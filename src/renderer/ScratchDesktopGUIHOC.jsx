@@ -105,7 +105,7 @@ const ScratchDesktopGUIHOC = function (WrappedComponent) {
             this.props.loadExtensionFromFile(args.extension, 'ccx');
         }
         handleGetExtension () {
-            Electron.ipcRenderer.invoke('set-extension', this.props.extension);
+            ipcRenderer.invoke('set-extension', this.props.extension);
         }
         handleStorageInit (storageInstance) {
             storageInstance.addHelper(new ElectronStorageHelper(storageInstance));
