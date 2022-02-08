@@ -34,10 +34,10 @@ jobs:
       
       - name: Install dependencies
         run: |
-          yarn --frozen-lockfile
+          yarn
           yarn global add cross-env
           cd node_modules/clipcc-gui
-          yarn --frozen-lockfile
+          yarn
           cd ../..
       - name: Compile
         run: |
