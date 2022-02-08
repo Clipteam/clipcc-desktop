@@ -174,6 +174,7 @@ const createWindow = ({search = null, url = 'index.html', ...browserWindowOption
         show: false,
         webPreferences: {
             nodeIntegration: true,
+            enableRemoteModule: true,
             contextIsolation: false,
             preload: path.resolve(path.join(__dirname, 'preload.js'))
         },
