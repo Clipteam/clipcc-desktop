@@ -35,16 +35,26 @@ jobs:
       - name: Install dependencies
         run: |
           yarn
-          yarn global add cross-env
           cd node_modules/clipcc-gui
           yarn
           cd ../..
-      - name: Compile
+      - name: Compile (Windows)
+        if: ${{ startsWith(matrix.os, 'windows') }}
+        run: |
+          $env:NODE_ENV="production"
+          $env:BUILD_MODE="dist"
+          $env:STATIC_PATH="static"
+          cd node_modules/clipcc-gui
+          yarn run build
+          cd ../..
+          yarn run compile
+      - name: Compile (Linux & Mac OS)
+        if: ${{ !startsWith(matrix.os, 'windows') }}
         run: |
           cd node_modules/clipcc-gui
-          cross-env NODE_ENV=production yarn run build:dist
+          NODE_ENV=production yarn run build:dist
           cd ../..
-          cross-env NODE_ENV=production yarn run compile
+          NODE_ENV=production yarn run compile
           
       - name: Build (Linux)
         if: ${{ startsWith(matrix.os, 'ubuntu') }}
