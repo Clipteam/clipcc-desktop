@@ -1,9 +1,9 @@
 import {BrowserWindow, Menu, app, dialog, ipcMain, shell, systemPreferences} from 'electron';
+import remoteMain from '@electron/remote/main';
 import fs from 'fs-extra';
 import path from 'path';
 import {URL} from 'url';
 import {promisify} from 'util';
-import JSZip from 'jszip';
 
 import argv from './argv';
 import {getFilterForExtension} from './FileFilters';
@@ -14,6 +14,7 @@ import {productName, version} from '../../package.json';
 
 // suppress deprecation warning; this will be the default in Electron 9
 app.allowRendererProcessReuse = true;
+remoteMain.initialize(); // Initialized for extensions
 
 telemetry.appWasOpened();
 
@@ -340,7 +341,7 @@ const createMainWindow = () => {
     webContents.on('will-prevent-unload', ev => {
         const choice = dialog.showMessageBoxSync(window, {
             type: 'question',
-            message: 'Leave Scratch?',
+            message: 'Leave ClipCC?',
             detail: 'Any unsaved changes will be lost.',
             buttons: ['Stay', 'Leave'],
             cancelId: 0, // closing the dialog means "stay"
