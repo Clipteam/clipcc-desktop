@@ -249,7 +249,7 @@ const createLoadingWindow = () => {
 };
 const createExtensionStoneWindow = () => {
     const window = createWindow({
-        url: 'https://clipcc-extension-store.vercel.app/?desktop=1',
+        url: 'https://codingclip.com/extension?desktop=1',
         title: 'ClipCC Extension Store',
         parent: _windows.main,
         width: _windows.main.width * 1.8,
