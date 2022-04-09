@@ -19,7 +19,7 @@ jobs:
         run: |
           yarn
           cd node_modules/clipcc-gui
-          yarn
+          node gen-meta.js
           cd ../..
       
       - name: Compile
@@ -121,4 +121,3 @@ jobs:
           tag: ${{ github.ref }}
           overwrite: true
           file_glob: true
-

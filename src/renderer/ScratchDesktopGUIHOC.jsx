@@ -4,7 +4,7 @@ import omit from 'lodash.omit';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {connect} from 'react-redux';
-import {loadExtensionFromFile} from 'clipcc-gui';
+import {loadExtensionFromFile} from 'clipcc-gui/src/index';
 import './filesystem-api';
 
 import {

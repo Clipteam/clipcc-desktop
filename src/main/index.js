@@ -401,16 +401,14 @@ app.on('ready', () => {
             const {default: installExtension, ...devToolsExtensions} = importedModule;
             const extensionsToInstall = [
                 devToolsExtensions.REACT_DEVELOPER_TOOLS,
-                devToolsExtensions.REACT_PERF,
                 devToolsExtensions.REDUX_DEVTOOLS
             ];
             for (const extension of extensionsToInstall) {
                 // WARNING: depending on a lot of things including the version of Electron `installExtension` might
                 // return a promise that never resolves, especially if the extension is already installed.
-                installExtension(extension).then(
-                    extensionName => log(`Installed dev extension: ${extensionName}`),
-                    errorMessage => log.error(`Error installing dev extension: ${errorMessage}`)
-                );
+                installExtension(extension)
+                    .then(extensionName => log(`Installed dev extension: ${extensionName}`))
+                    .catch(errorMessage => log.error(`Error installing dev extension: ${errorMessage}`));
             }
         });
     }
