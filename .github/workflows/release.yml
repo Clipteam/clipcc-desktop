@@ -26,9 +26,6 @@ jobs:
         run: |
           export DISPLAY=':99.0'
           Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
-          cd node_modules/clipcc-gui
-          NODE_ENV=production yarn run build:dist
-          cd ../..
           NODE_ENV=production yarn run compile
           
       - name: Build

@@ -1,9 +1,11 @@
 #!/bin/bash
 SRC=../src/icon/app.png
-SRC_MAC=../src/icon/app_mac.png
+SRC_MAC=../src/icon/app.png
+SRC_CC3=../src/icon/cc3.png
 OUT_ICONSET=app.iconset
 OUT_ICNS=app.icns
 OUT_ICO=app.ico
+OUT_CC3=./icon/cc3.ico
 TMP_ICO=tmp
 
 ICO_BASIC_SIZES="16 24 32 48 256"
@@ -24,10 +26,10 @@ fi
 function resize () {
     WIDTH=$1
     HEIGHT=$2
-    SRC=$3
+    SRC_T=$3
     DST=$4
     shift 4
-    convert -background none -resize "${WIDTH}x${HEIGHT}" -extent "${WIDTH}x${HEIGHT}" -gravity center "$@" "${SRC}" "${DST}"
+    convert -background none -resize "${WIDTH}x${HEIGHT}" -extent "${WIDTH}x${HEIGHT}" -gravity center "$@" "${SRC_T}" "${DST}"
     optimize "${DST}"
 }
 
@@ -47,11 +49,14 @@ if command -v convert >/dev/null 2>&1; then
 
     # Windows ICO
     mkdir -p "${TMP_ICO}"
+    mkdir -p icon
     for SIZE in ${ICO_BASIC_SIZES} ${ICO_EXTRA_SIZES}; do
         resize "${SIZE}" "${SIZE}" "${SRC}" "${TMP_ICO}/icon_${SIZE}x${SIZE}.png"
+        resize "${SIZE}" "${SIZE}" "${SRC_CC3}" "${TMP_ICO}/cc3_${SIZE}x${SIZE}.png"
     done
     # Asking for "Zip" compression actually results in PNG compression
     convert "${TMP_ICO}"/icon_*.png -colorspace sRGB -compress Zip "${OUT_ICO}"
+    convert "${TMP_ICO}"/cc3_*.png -colorspace sRGB -compress Zip "${OUT_CC3}"
 
     # Windows AppX
     mkdir -p "appx"
