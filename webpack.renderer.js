@@ -22,10 +22,6 @@ module.exports = defaultConfig =>
             ],
             plugins: [
                 new CopyWebpackPlugin([{
-                    from: path.join(getModulePath('clipcc-gui'), 'dist', 'static'),
-                    to: 'static'
-                }]),
-                new CopyWebpackPlugin([{
                     from: path.join('src', 'renderer', 'loading.html'),
                     to: 'static'
                 }]),
