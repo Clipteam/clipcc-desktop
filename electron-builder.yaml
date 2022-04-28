@@ -4,7 +4,7 @@ directories:
 appId: com.codingclip.clipcc3
 productName: ClipCC
 artifactName: clipcc-${version}-${os}-${arch}.${ext}
-copyright: Copyright © 2019-2021 Clip Team.
+copyright: Copyright © 2019-2022 Clip Team.
 compression: maximum
 extraResources:
   - from: buildResources/icon

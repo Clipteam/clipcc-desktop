@@ -126,7 +126,10 @@ const makeConfig = function (defaultConfig, options) {
                 new TerserPlugin({
                     minify: TerserPlugin.uglifyJsMinify,
                     parallel: true,
-                    include: /\.js$/
+                    include: /\.js$/,
+                    extractComments: {
+                        banner: `Copyright © ${new Date().getFullYear()} Clip Team`
+                    }
                 })
             ]
         }
