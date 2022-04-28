@@ -1,4 +1,14 @@
-import {BrowserWindow, Menu, app, dialog, ipcMain, shell, systemPreferences} from 'electron';
+import {
+    BrowserWindow,
+    Menu,
+    app,
+    dialog,
+    ipcMain,
+    shell,
+    systemPreferences,
+    session,
+    net
+} from 'electron';
 import fs from 'fs-extra';
 import path from 'path';
 import {URL} from 'url';
@@ -249,7 +259,7 @@ const createLoadingWindow = () => {
 };
 const createExtensionStoneWindow = () => {
     const window = createWindow({
-        url: 'https://codingclip.com/extension?desktop=1',
+        url: 'static/loading.html',
         title: 'ClipCC Extension Store',
         parent: _windows.main,
         width: _windows.main.width * 1.8,
@@ -438,6 +448,18 @@ app.on('ready', () => {
         event.preventDefault();
         _windows.extensionStore.hide();
     });
+    const filter = {
+        urls: ['*://codingclip.com/*']
+    };
+    session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
+        details.requestHeaders['User-Agent'] = `ClipCCDesktop/${app.getVersion()}`;
+        details.requestHeaders.Origin = null;
+        callback({requestHeaders: details.requestHeaders});
+    });
+    session.defaultSession.webRequest.onHeadersReceived(filter, (details, callback) => {
+        details.responseHeaders['Access-Control-Allow-Origin'] = ['*'];
+        callback({responseHeaders: details.responseHeaders});
+    });
 
 });
 
@@ -524,7 +546,16 @@ ipcMain.handle('get-local-extension-files', () => loadLocalExtensionFile);
 ipcMain.handle('load-extension', (event, extension) => {
     _windows.main.webContents.send('loadExtensionFromFile', {extension});
 });
-ipcMain.on('open-extension-store', () => _windows.extensionStore.show());
+ipcMain.on('open-extension-store', () => {
+    if (!net.isOnline()) {
+        return dialog.showMessageBoxSync(_windows.main, {
+            message: 'You need to be connected to the Internet to use the extension store.',
+            type: 'info'
+        });
+    }
+    _windows.extensionStore.loadURL('https://codingclip.com/extension/?desktop=1');
+    _windows.extensionStore.show();
+});
 ipcMain.handle('get-extension', async () => {
     await _windows.main.webContents.send('getExtension');
     return _extension;

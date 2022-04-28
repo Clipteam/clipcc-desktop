@@ -1,6 +1,7 @@
 /* eslint-disable no-undef,no-return-await */
 const {ipcRenderer} = require('electron');
 const axios = require('axios');
+const Channel = require('broadcast-channel').BroadcastChannel;
 
 window.ClipCC = {
     addExtension: async url => {
@@ -32,3 +33,16 @@ window.ClipCC = {
         platform: process.platform
     }
 };
+
+class BroadcastChannel extends Channel {
+    constructor (name) {
+        super(name, {type: 'node'});
+        this._postMessage = Channel.postMessage;
+    }
+    postMessage (message) {
+        return super.postMessage({data: message});
+    }
+}
+
+window.BroadcastChannel = BroadcastChannel;
+window.opener = self;

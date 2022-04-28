@@ -11,6 +11,7 @@ const merge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
 const postcssVars = require('postcss-simple-vars');
 const postcssImport = require('postcss-import');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const isProduction = (process.env.NODE_ENV === 'production');
 
@@ -59,7 +60,7 @@ const makeConfig = function (defaultConfig, options) {
     }
 
     const config = merge.smart(defaultConfig, {
-        devtool: 'cheap-module-eval-source-map',
+        devtool: isProduction ? false : 'cheap-module-eval-source-map',
         mode: isProduction ? 'production' : 'development',
         module: {
             rules: [
@@ -112,11 +113,22 @@ const makeConfig = function (defaultConfig, options) {
         resolve: {
             cacheWithContext: false,
             symlinks: false,
-            /*alias: {
+            alias: {
                 // act like clipcc-gui has this line in its package.json:
                 //   "browser": "./src/index.js"
+                'react-redux$': path.resolve(__dirname, 'node_modules', 'react-redux'),
+                'react$': path.resolve(__dirname, 'node_modules', 'react'),
                 'clipcc-gui$': path.resolve(__dirname, 'node_modules', 'clipcc-gui', 'src', 'index.js')
-            }*/
+            }
+        },
+        optimization: {
+            minimizer: [
+                new TerserPlugin({
+                    minify: TerserPlugin.uglifyJsMinify,
+                    parallel: true,
+                    include: /\.js$/
+                })
+            ]
         }
     });
 
@@ -124,8 +136,7 @@ const makeConfig = function (defaultConfig, options) {
     // Note that electron-webpack enables this by default, so use '--no-progress' to avoid double-adding this plugin
     if (!process.env.CI) {
         config.plugins.push(new webpack.ProgressPlugin());
-    }
-    else {
+    } else {
         config.stats = 'minimal';
     }
 
