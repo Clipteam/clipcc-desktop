@@ -6,7 +6,7 @@
     "name": "Clip Team",
     "email": "cuizhihui030925@outlook.com"
   },
-  "version": "3.1.2-beta2",
+  "version": "3.1.2",
   "license": "AGPL-3.0",
   "scripts": {
     "clean": "rimraf ./dist ./static/assets",
@@ -32,7 +32,7 @@
     "autoprefixer": "9.0.1",
     "axios": "^0.25.0",
     "broadcast-channel": "^4.11.0",
-    "clipcc-extension": "^0.1.7",
+    "clipcc-extension": "^0.1.9",
     "css-loader": "1.0.0",
     "jszip": "^3.6.0",
     "lodash.omit": "^4.5.0",
@@ -53,7 +53,7 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-react-intl": "^7.5.7",
-    "clipcc-gui": "3.1.12",
+    "clipcc-gui": "3.1.13",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.3",
     "electron": "15.3.1",
