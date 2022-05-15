@@ -101,7 +101,7 @@ jobs:
         run: yarn run compile
 
       - name: Build
-        run: yarn electron-builder --win --x64 && yarn electron-builder --win --ia32"
+        run: yarn electron-builder --win --x64 && yarn electron-builder --win --ia32
 
       - name: Upload results
         uses: actions/upload-artifact@v2
