@@ -259,7 +259,7 @@ const createLoadingWindow = () => {
 };
 const createExtensionStoneWindow = () => {
     const window = createWindow({
-        url: 'static/loading.html',
+        url: 'https://codingclip.com/extension?desktop=1',
         title: 'ClipCC Extension Store',
         parent: _windows.main,
         width: _windows.main.width * 1.8,
